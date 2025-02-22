@@ -9,6 +9,7 @@ export default createRoute(async (c) => {
     const topresp = fetch(topURL)
     const userresp = fetch(userURL)
     const [top, user] = await Promise.all([topresp, userresp])
+    console.debug(await top.clone().text())
     const topdata: UserTop = await cache(topURL,top).json()
     const userdata: User = await cache(userURL,user).json()
     return c.render(<>
