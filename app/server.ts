@@ -17,6 +17,8 @@ app.use(cors({
 }))
 app.use(etag())
 
-showRoutes(app,{verbose:true})
+if (import.meta.env.DEV) {
+  showRoutes(app, { verbose: true })
+}
 
 export default app
