@@ -20,7 +20,5 @@
     "vite": "^6.1.1",
     "wrangler": "^3.109.2"
   },
-  "engines": {
-    "pnpm": ">=8"
-  }
+  "packageManager": "pnpm@10.4.1",
 }
