@@ -5,7 +5,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "wrangler pages dev",
-    "deploy": "bun run build && wrangler pages deploy"
+    "deploy": "bun run build && wrangler pages deploy",
+    "preinstall" : "npx only-allow pnpm"
   },
   "dependencies": {
     "hono": "^4.7.2",
