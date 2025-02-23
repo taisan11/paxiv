@@ -19,5 +19,8 @@
     "lightningcss": "^1.29.1",
     "vite": "^6.1.1",
     "wrangler": "^3.109.2"
+  },
+  "engines": {
+    "pnpm": ">=8"
   }
 }
