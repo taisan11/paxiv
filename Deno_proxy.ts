@@ -27,3 +27,5 @@ app.get("/img/:path{.+\\.(png|jpg)}", async (c) => {
     cache.put(req, res.clone())
     return c.body(await res.arrayBuffer())
 })
+
+export default app;

@@ -3,7 +3,9 @@ import type { Context } from "hono"
 export function url2imageURL(url: string, host: string): string {
     const i = new URL(url)
     if (i.hostname === "i.pximg.net") {
-        return `/proxy/img${i.pathname}`
+        if (import.meta.env.DEV) {
+            return `/proxy/img${i.pathname}`
+        }
     }
     throw new Error("Invalid URL")
 }

@@ -1,6 +1,7 @@
 import {createRoute} from "honox/factory"
 import {illustdetails} from "@/types"
 import { url2imageURL,host,cache } from "@/util"
+import {fetch} from "@/fetch"
 
 export default createRoute(async (c) => {
     const illustId = c.req.param('id')
