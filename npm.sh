@@ -1,1 +1,0 @@
-echo "not use npm"
