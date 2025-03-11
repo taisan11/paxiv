@@ -5,6 +5,8 @@ export function url2imageURL(url: string, host: string): string {
     if (i.hostname === "i.pximg.net") {
         if (import.meta.env.DEV) {
             return `/proxy/img${i.pathname}`
+        } else {
+            return `https://paxiv-proxy-11.deno.dev/img${i.pathname}`
         }
     }
     throw new Error("Invalid URL")

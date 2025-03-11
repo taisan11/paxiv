@@ -8,7 +8,7 @@
 // }
 
 const _fetch = import.meta.env.DEV ? fetch : (url:string|URL, init?: RequestInit): Promise<Response> => {
-    const proxyUrl = new URL('https:', url);
+    const proxyUrl = "https://paxiv-proxy-11.deno.dev/proxy/"+new URL(url);
     return fetch(proxyUrl, init);
 }
 

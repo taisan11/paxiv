@@ -1,8 +1,13 @@
 import { Hono } from "hono";
 import {proxy} from "hono/proxy"
+import { cors } from "hono/cors";
+import {etag} from "hono/etag"
 
 const cache = await caches.open("my-cache");
 const app = new Hono();
+
+app.use(cors());
+app.use(etag());
 
 app.all("/proxy/:url", async (c) => {
     const cacheResponse = await cache.match(c.req.raw);
