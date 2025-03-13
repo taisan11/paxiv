@@ -9,7 +9,7 @@ const app = new Hono();
 app.use(cors());
 app.use(etag());
 
-app.all("/proxy/:url", async (c) => {
+app.all("/proxy/:url{.+}", async (c) => {
     const cacheResponse = await cache.match(c.req.raw);
     if (cacheResponse) {
         console.log(await cacheResponse.clone().text())
