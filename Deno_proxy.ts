@@ -16,8 +16,9 @@ app.all("/proxy/:url{.+}", async (c) => {
     if (cacheResponse) {
         return cacheResponse;
     } else {
-        const re = await proxy(c.req.url.replace("https://paxiv-proxy-11.deno.dev/proxy/",""), c.req.raw);
-        const cacheRequest = new Request(c.req.url, c.req);
+        const url = c.req.url.replace("https://paxiv-proxy-11.deno.dev/proxy/","")
+        const re = await proxy(url, c.req.raw);
+        const cacheRequest = new Request(url, c.req);
         cache.put(cacheRequest, re);
         return re;
     }
