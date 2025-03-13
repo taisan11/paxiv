@@ -12,11 +12,12 @@ app.use(etag());
 app.use(logger());
 
 app.all("/proxy/:url{.+}", async (c) => {
-    const cacheResponse = await cache.match(c.req.raw);
+    const url = c.req.url.replace("https://paxiv-proxy-11.deno.dev/proxy/","")
+    const cacheRequest = new Request(url, c.req);
+    const cacheResponse = await cache.match(cacheRequest);
     if (cacheResponse) {
         return cacheResponse;
     } else {
-        const url = c.req.url.replace("https://paxiv-proxy-11.deno.dev/proxy/","")
         const re = await proxy(url, c.req.raw);
         const cacheRequest = new Request(url, c.req);
         cache.put(cacheRequest, re);
