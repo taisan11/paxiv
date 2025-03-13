@@ -12,12 +12,10 @@ app.use(etag());
 app.all("/proxy/:url{.+}", async (c) => {
     const cacheResponse = await cache.match(c.req.raw);
     if (cacheResponse) {
-        console.log(await cacheResponse.clone().text())
         return cacheResponse;
     } else {
         const re = await proxy(c.req.raw.url, c.req.raw);
         cache.put(c.req.raw, re);
-        console.log(await re.clone().text())
         return re;
     }
 })
