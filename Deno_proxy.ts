@@ -12,6 +12,7 @@ app.use(etag());
 app.all("/proxy/:url", async (c) => {
     const cacheResponse = await cache.match(c.req.raw);
     if (cacheResponse) {
+        console.log(await cacheResponse.clone().text())
         return cacheResponse;
     } else {
         const re = await proxy(`https://${c.req.param().url}`, c.req.raw);
