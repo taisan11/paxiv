@@ -50,4 +50,4 @@ async function generateTypeFromJson(url: string, typeName: string = "GeneratedTy
 }
 
 // 例: 使用例
-// generateTypeFromJson(argv[2]).then(console.log).catch(console.error);
+generateTypeFromJson(argv[2]).then(console.log).catch(console.error);
