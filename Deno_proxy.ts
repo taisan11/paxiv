@@ -16,6 +16,7 @@ app.all("/proxy/:url", async (c) => {
     } else {
         const re = await proxy(`https://${c.req.param().url}`, c.req.raw);
         cache.put(c.req.raw, re);
+        console.log(await re.clone().text())
         return re;
     }
 })
