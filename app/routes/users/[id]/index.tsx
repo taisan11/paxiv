@@ -8,7 +8,6 @@ export default createRoute(async (c) => {
     const topURL = `https://www.pixiv.net/ajax/user/${userId}/profile/top`
     const userURL = `https://www.pixiv.net/touch/ajax/user/details?id=${userId}`
     const topresp = fetch(topURL)
-    console.log(await (await topresp).clone().text())
     const userresp = fetch(userURL)
     const [top, user] = await Promise.all([topresp, userresp])
     const topdata: UserTop = await cache(topURL,top).json()
