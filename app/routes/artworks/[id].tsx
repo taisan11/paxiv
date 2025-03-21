@@ -1,6 +1,7 @@
 import {createRoute} from "honox/factory"
 import {illustdetails} from "@/types"
 import { url2imageURL,host,cache } from "@/util"
+import {fetch} from "@/fetch"
 
 export default createRoute(async (c) => {
     const illustId = c.req.param('id')
@@ -13,7 +14,6 @@ export default createRoute(async (c) => {
         <p>{illustdata.body.illust_details.meta.description}</p>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
             <a href={`https://www.pixiv.net/artworks/${illustId}`} target="_blank">Pixivで見る</a>
-            <a href={`https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${illustId}`} target="_blank">Pixivでコメントする</a>
         </div>
     </>
     )

@@ -1,6 +1,7 @@
 import {createRoute} from "honox/factory"
 import {UserTop,User} from "@/types"
 import { url2imageURL,host,cache } from "@/util"
+import {fetch} from "@/fetch"
 
 export default createRoute(async (c) => {
     const userId = c.req.param('id')
@@ -9,7 +10,6 @@ export default createRoute(async (c) => {
     const topresp = fetch(topURL)
     const userresp = fetch(userURL)
     const [top, user] = await Promise.all([topresp, userresp])
-    console.debug(await top.clone().text())
     const topdata: UserTop = await cache(topURL,top).json()
     const userdata: User = await cache(userURL,user).json()
     return c.render(<>
