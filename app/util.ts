@@ -1,6 +1,7 @@
 import type { Context } from "hono"
 
 export function url2imageURL(url: string, host: string): string {
+    if (!url) {return ""}
     const i = new URL(url)
     if (i.hostname === "i.pximg.net") {
         if (import.meta.env.DEV) {

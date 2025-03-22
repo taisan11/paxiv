@@ -1,15 +1,13 @@
-// export function fetch(url:string|URL, init?: RequestInit): Promise<Response> {
-//     if (import.meta.env.DEV) {
-//         return fetch(url, init);
-//     } else {
-//         const proxyUrl = new URL('https:', url);
-//         return fetch(proxyUrl, init);
-//     }
-// }
-
-const _fetch = import.meta.env.DEV ? fetch : (url:string|URL, init?: RequestInit): Promise<Response> => {
-    const proxyUrl = "https://paxiv-proxy-11.deno.dev/proxy/"+new URL(url);
-    return fetch(proxyUrl, init);
+function _fetch(url: string | URL, init?: RequestInit, lang: string = "ja"): Promise<Response> {
+    const formattedUrl = new URL(url);
+    formattedUrl.searchParams.set("lang", lang);
+    formattedUrl.searchParams.set("version", "92ab2445159f62490b3ba509f289ab9350438edb");
+    if (import.meta.env.DEV) {
+        return fetch(formattedUrl, init);
+    } else {
+        const proxyUrl = "https://paxiv-proxy-11.deno.dev/proxy/" + formattedUrl;
+        return fetch(proxyUrl, init);
+    }
 }
 
 export { _fetch as fetch };
