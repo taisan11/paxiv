@@ -55,14 +55,10 @@ export interface PixivUser {
  * タグ情報
  */
 export interface Tag {
-    /** タグ名 */
-    name: string
-
-    /** 翻訳済みタグ名 */
-    translated_name: null | string
-
-    /** 投稿者によって追加されたタグかどうか */
-    added_by_uploaded_user?: boolean
+    /**タグ名 */
+    tag: string;
+    /** 翻訳済みのタグ名 */
+    tag_translation: null|string;
 }
 
 /**
@@ -74,4 +70,28 @@ export interface Series {
 
     /** シリーズ名 */
     title: string
+}
+
+export interface Meta {
+    twitter_card: {
+        card: string;
+        site: string;
+        title: string;
+        image: string;
+        description: string;
+    };
+    ogp: {
+        title: string;
+        type: string;
+        image: string;
+        description: string;
+    };
+    title: string;
+    description: string;
+    description_header: string;
+    canonical: string;
+    alternate_languages: {
+        ja: string;
+        en: string;
+    };
 }

@@ -2,6 +2,9 @@
  * Interface representing the structure of user top data.
  * This interface excludes any advertisement-related information.
 */
+
+import { Meta, Tag } from "./common";
+
 //https://www.pixiv.net/touch/ajax/user/details?id=${userId}
 export interface User {
     error: boolean;
@@ -70,29 +73,7 @@ export interface User {
             show_request_tab: boolean;
             show_request_sent_tab: boolean;
             can_send_message: boolean;
-            meta: {
-                twitter_card: {
-                    card: string;
-                    site: string;
-                    title: string;
-                    image: string;
-                    description: string;
-                };
-                ogp: {
-                    title: string;
-                    type: string;
-                    image: string;
-                    description: string;
-                };
-                title: string;
-                description: string;
-                description_header: string;
-                canonical: string;
-                alternate_languages: {
-                    ja: string;
-                    en: string;
-                };
-            };
+            meta: Meta
         };
     };
 }
@@ -168,28 +149,7 @@ export interface UserTop {
             }
         }
         extraData: {
-            meta: {
-                title: string;
-                description: string;
-                canonical: string;
-                ogp: {
-                    description: string;
-                    image: string;
-                    title: string;
-                    type: string;
-                };
-                twitter: {
-                    description: string;
-                    image: string;
-                    title: string;
-                    card: string;
-                };
-                alternateLanguages: {
-                    ja: string;
-                    en: string;
-                };
-                descriptionHeader: string;
-            };
+            meta: Meta
         };
     }
 }
@@ -240,10 +200,7 @@ export interface UserIllusts {
                 user_account: string;
             };
         }[];
-        tags: {
-            tag: string;
-            tag_translation: string;
-        }[];
+        tags: Tag[]
         total: number;
         lastPage: number;
         should_show_sensitive_notice: boolean;
@@ -302,30 +259,7 @@ export interface illustdetails {
             request: null;
             location_mask: boolean;
             is_login_only: boolean;
-            meta: {
-                twitter_card: {
-                    card: string;
-                    site: string;
-                    url: string;
-                    title: string;
-                    description: string;
-                    image: string;
-                };
-                ogp: {
-                    title: string;
-                    type: string;
-                    image: string;
-                    description: string;
-                };
-                title: string;
-                description: string;
-                description_header: string;
-                canonical: string;
-                alternate_languages: {
-                    ja: string;
-                    en: string;
-                };
-            };
+            meta: Meta;
             meta_for_nologin: {
                 breadcrumbs: string[];
                 breadcrumbs_translations: null;
@@ -395,104 +329,6 @@ export interface illustdetails {
             };
             commission: null;
         };
-        ads: {
-            ad_below_header: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            ad_below_everything: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_below_everything_top: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_above_related_works: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_pager: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_overlay: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            ad_in_feed: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_grid: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_list: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_above_comment: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-        };
     };
 }
 
@@ -500,29 +336,7 @@ export interface Sarch {
     error: boolean;
     message: string;
     body: {
-        meta: {
-            twitter_card: {
-                card: string;
-                site: string;
-                title: string;
-                image: string;
-                description: string;
-            };
-            ogp: {
-                type: string;
-                title: string;
-                image: string;
-                description: string;
-            };
-            title: string;
-            description: string;
-            description_header: string;
-            canonical: string;
-            alternate_languages: {
-                ja: string;
-                en: string;
-            };
-        };
+        meta: Meta;
         tag: string;
         translatedTag: null;
         pixpedia: {
@@ -748,63 +562,5 @@ export interface Sarch {
             };
         }[];
         novelsTotal: number;
-        ads: {
-            ad_below_header: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            ad_pager: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_overlay: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            ad_below_everything: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_grid: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-        };
     }
 };
