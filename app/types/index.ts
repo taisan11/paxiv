@@ -3,7 +3,11 @@
  * This interface excludes any advertisement-related information.
 */
 
+//include_metaでmetaを取得するかどうか(検索用)
+//0:取得しない 1:取得する
+
 import { Meta, Tag } from "./common";
+import { Illust, Manga, Novel } from "./minis";
 
 //https://www.pixiv.net/touch/ajax/user/details?id=${userId}
 export interface User {
@@ -396,109 +400,212 @@ export interface Sarch {
                 user_account: string;
             };
         }[];
-        illusts: {
-            url: string;
-            tags: string[];
-            title_caption_translation: {
-                work_title: null;
-                work_caption: null;
-            };
-            is_mypixiv: boolean;
-            is_private: boolean;
-            is_howto: boolean;
-            is_original: boolean;
-            alt: string;
-            url_s: string;
-            url_sm: string;
-            url_w: string;
-            url_ss: null;
-            url_big: null;
-            url_placeholder: null;
-            upload_timestamp: number;
-            location_mask: boolean;
-            id: string;
-            user_id: string;
-            title: string;
-            width: string;
-            height: string;
-            restrict: string;
-            x_restrict: string;
-            type: string;
-            sl: number;
-            book_style: string;
-            page_count: string;
-            comment_off_setting: number;
-            ai_type: number;
-            comment: null;
-            author_details: {
-                user_id: string;
-                user_name: string;
-                user_account: string;
-            };
-        }[];
+        illusts: Illust[];
         illustsTotal: number;
-        manga: {
-            url: string;
-            tags: string[];
-            title_caption_translation: {
-                work_title: null;
-                work_caption: null;
-            };
-            is_mypixiv: boolean;
-            is_private: boolean;
-            is_howto: boolean;
-            is_original: boolean;
-            alt: string;
-            url_s: string;
-            url_sm: string;
-            url_w: string;
-            url_ss: null;
-            url_big: null;
-            url_placeholder: null;
-            upload_timestamp: number;
-            series: {
-                id: string;
-                user_id: string;
-                title: string;
-                caption: string;
-                total: string;
-                content_order: string;
-                url: null;
-                update_date: null;
-                first_illust_id: null;
-                latest_illust_id: null;
-                latest_work: null;
-                user: null;
-                userId: string;
-                coverImage: null;
-                workCount: string;
-                display_series_content_count: string;
-                firstWorkId: null;
-                is_watched: boolean;
-                is_notifying: boolean;
-            };
-            location_mask: boolean;
-            id: string;
-            user_id: string;
-            title: string;
-            width: string;
-            height: string;
-            restrict: string;
-            x_restrict: string;
-            type: string;
-            sl: number;
-            book_style: string;
-            page_count: string;
-            comment_off_setting: number;
-            ai_type: number;
-            comment: string;
-            author_details: {
-                user_id: string;
-                user_name: string;
-                user_account: string;
-            };
-        }[];
+        manga: Manga[];
         mangaTotal: number;
+        novels: Novel[];
+        novelsTotal: number;
+    }
+};
+
+interface GeneratedType {
+    error: boolean;
+    message: string;
+    body: {
+        meta: {
+            tag: string;
+            words: string[];
+            pixpedia: {
+                tag: string;
+                abstract: string;
+                parent_tag: null;
+                siblings_tags: null;
+                children_tags: null;
+                breadcrumbs: string[];
+                illust: {
+                    id: number;
+                    url: string;
+                };
+            };
+            bookmarkRanges: {
+                blt: string;
+                bgt: null;
+                count: null;
+                current: boolean;
+            }[];
+            relatedTags: {
+                tag: string;
+                cnt: number;
+                tag_translation: string;
+            }[];
+            translatedTags: any[];
+            popularNovels: {
+                tag: string;
+                novels: {
+                    id: string;
+                    title: string;
+                    comment: string;
+                    user_id: string;
+                    scene: string;
+                    restrict: string;
+                    x_restrict: string;
+                    tag_full_lock: string;
+                    response_auto: string;
+                    is_original: string;
+                    language: string;
+                    tag: string;
+                    tool: string;
+                    cover_type: string;
+                    cover_id: string;
+                    hash: string;
+                    serialized_value: string;
+                    character_count: string;
+                    word_count: string;
+                    cdate: string;
+                    mdate: string;
+                    novel_cover_img_name: string;
+                    novel_cover_img_ext: string;
+                    comment_off_setting: string;
+                    ai_type: string;
+                    type: string;
+                    text: null;
+                    mask_rule_set: {
+                        mask: number;
+                    };
+                    text_length: number;
+                    user_account: string;
+                    user_name: string;
+                    user_status: string;
+                    url: string;
+                    img: string;
+                }[];
+                recent_novels: {
+                    24312665: {
+                        id: string;
+                        title: string;
+                        comment: string;
+                        user_id: string;
+                        scene: string;
+                        restrict: string;
+                        x_restrict: string;
+                        tag_full_lock: string;
+                        response_auto: string;
+                        is_original: string;
+                        language: string;
+                        tag: string;
+                        tool: string;
+                        cover_type: string;
+                        cover_id: string;
+                        hash: string;
+                        serialized_value: string;
+                        character_count: string;
+                        word_count: string;
+                        cdate: string;
+                        mdate: string;
+                        novel_cover_img_name: string;
+                        novel_cover_img_ext: string;
+                        comment_off_setting: string;
+                        ai_type: string;
+                        type: string;
+                        text: null;
+                        mask_rule_set: {
+                            mask: number;
+                        };
+                        text_length: number;
+                        user_account: string;
+                        user_name: string;
+                        user_status: string;
+                        url: string;
+                    };
+                    24315954: {
+                        id: string;
+                        title: string;
+                        comment: string;
+                        user_id: string;
+                        scene: string;
+                        restrict: string;
+                        x_restrict: string;
+                        tag_full_lock: string;
+                        response_auto: string;
+                        is_original: string;
+                        language: string;
+                        tag: string;
+                        tool: string;
+                        cover_type: string;
+                        cover_id: string;
+                        hash: string;
+                        serialized_value: string;
+                        character_count: string;
+                        word_count: string;
+                        cdate: string;
+                        mdate: string;
+                        novel_cover_img_name: string;
+                        novel_cover_img_ext: string;
+                        comment_off_setting: string;
+                        ai_type: string;
+                        type: string;
+                        text: null;
+                        mask_rule_set: {
+                            mask: number;
+                        };
+                        text_length: number;
+                        user_account: string;
+                        user_name: string;
+                        user_status: string;
+                        url: string;
+                    };
+                    24357147: {
+                        id: string;
+                        title: string;
+                        comment: string;
+                        user_id: string;
+                        scene: string;
+                        restrict: string;
+                        x_restrict: string;
+                        tag_full_lock: string;
+                        response_auto: string;
+                        is_original: string;
+                        language: string;
+                        tag: string;
+                        tool: string;
+                        cover_type: string;
+                        cover_id: string;
+                        hash: string;
+                        serialized_value: string;
+                        character_count: string;
+                        word_count: string;
+                        cdate: string;
+                        mdate: string;
+                        novel_cover_img_name: string;
+                        novel_cover_img_ext: string;
+                        comment_off_setting: string;
+                        ai_type: string;
+                        type: string;
+                        text: null;
+                        mask_rule_set: {
+                            mask: number;
+                        };
+                        text_length: number;
+                        user_account: string;
+                        user_name: string;
+                        user_status: string;
+                        url: string;
+                    };
+                };
+                create_date: string;
+            };
+            meta: {
+                title: string;
+                canonical: string;
+                description: string;
+                description_header: string;
+                alternate_languages: {
+                    ja: string;
+                    en: string;
+                };
+            };
+        };
         novels: {
             id: string;
             title: string;
@@ -561,6 +668,7 @@ export interface Sarch {
                 user_account: string;
             };
         }[];
-        novelsTotal: number;
-    }
-};
+        total: number;
+        lastPage: number;
+    };
+}
