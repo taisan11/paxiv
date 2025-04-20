@@ -6,7 +6,7 @@
 //include_metaでmetaを取得するかどうか(検索用)
 //0:取得しない 1:取得する
 
-import { Meta, Tag } from "./common";
+import { external_site_works_status, Meta, Tag, title_caption_translation } from "./common";
 import { Illust, Manga, Novel } from "./minis";
 
 //https://www.pixiv.net/touch/ajax/user/details?id=${userId}
@@ -57,11 +57,7 @@ export interface User {
             has_bookmarks: boolean;
             has_illust_bookmarks: boolean;
             has_novel_bookmarks: boolean;
-            external_site_works_status: {
-                booth: boolean;
-                sketch: boolean;
-                vroidHub: boolean;
-            };
+            external_site_works_status: external_site_works_status;
             has_follows: boolean;
             has_mypixiv: boolean;
             fanbox_details: {
@@ -165,10 +161,7 @@ export interface UserIllusts {
         illusts: {
             url: string;
             tags: string[];
-            title_caption_translation: {
-                work_title: null;
-                work_caption: null;
-            };
+            title_caption_translation: title_caption_translation;
             is_mypixiv: boolean;
             is_private: boolean;
             is_howto: boolean;
@@ -208,29 +201,7 @@ export interface UserIllusts {
         total: number;
         lastPage: number;
         should_show_sensitive_notice: boolean;
-        meta: {
-            twitter_card: {
-                card: string;
-                site: string;
-                title: string;
-                image: string;
-                description: string;
-            };
-            ogp: {
-                title: string;
-                type: string;
-                image: string;
-                description: string;
-            };
-            title: string;
-            description: string;
-            description_header: string;
-            canonical: string;
-            alternate_languages: {
-                ja: string;
-                en: string;
-            };
-        };
+        meta: Meta;
     };
 }
 
@@ -284,10 +255,7 @@ export interface illustdetails {
                     url: string;
                 }[];
             };
-            title_caption_translation: {
-                work_title: null;
-                work_caption: null;
-            };
+            title_caption_translation: title_caption_translation;
             is_mypixiv: boolean;
             is_private: boolean;
             is_howto: boolean;
@@ -363,10 +331,7 @@ export interface Sarch {
         popularWorks: {
             url: string;
             tags: string[];
-            title_caption_translation: {
-                work_title: null;
-                work_caption: null;
-            };
+            title_caption_translation: title_caption_translation;
             is_mypixiv: boolean;
             is_private: boolean;
             is_howto: boolean;
@@ -637,10 +602,7 @@ interface GeneratedType {
                 is_watched: boolean;
                 is_notifying: boolean;
             };
-            title_caption_translation: {
-                work_title: null;
-                work_caption: null;
-            };
+            title_caption_translation: title_caption_translation;
             cover_image: {
                 urls: {
                     "240mw": string;

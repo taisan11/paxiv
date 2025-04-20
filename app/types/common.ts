@@ -95,3 +95,14 @@ export interface Meta {
         en: string;
     };
 }
+
+export interface external_site_works_status {
+    booth: boolean;
+    sketch: boolean;
+    vroidHub: boolean;
+}
+
+export interface title_caption_translation {
+    work_title: null|string;
+    work_caption: null|string;
+}
