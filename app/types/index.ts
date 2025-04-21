@@ -6,7 +6,7 @@
 //include_metaでmetaを取得するかどうか(検索用)
 //0:取得しない 1:取得する
 
-import { external_site_works_status, Meta, Tag, title_caption_translation } from "./common";
+import { external_site_works_status, Meta, Tag, title_caption_translation, Unkown } from "./common";
 import { Illust, Manga, Novel } from "./minis";
 
 //https://www.pixiv.net/touch/ajax/user/details?id=${userId}
@@ -41,7 +41,7 @@ export interface User {
             is_mypixiv: boolean;
             is_blocking: boolean;
             is_blocked: boolean;
-            commission: null;
+            commission: Unkown;
             is_official: boolean;
             follows: number;
             social: {
@@ -101,11 +101,11 @@ export interface UserTop {
                 height: number;
                 pageCount: number;
                 isBookmarkable: boolean;
-                bookmarkData: null;
+                bookmarkData: Unkown;
                 alt: string;
                 titleCaptionTranslation: {
-                    workTitle: null;
-                    workCaption: null;
+                    workTitle: Unkown;
+                    workCaption: Unkown;
                 };
                 createDate: string;
                 updateDate: string;
@@ -133,11 +133,11 @@ export interface UserTop {
                 height: number;
                 pageCount: number;
                 isBookmarkable: boolean;
-                bookmarkData: null;
+                bookmarkData: Unkown;
                 alt: string;
                 titleCaptionTranslation: {
-                    workTitle: null;
-                    workCaption: null;
+                    workTitle: Unkown;
+                    workCaption: Unkown;
                 };
                 createDate: string;
                 updateDate: string;
@@ -170,9 +170,9 @@ export interface UserIllusts {
             url_s: string;
             url_sm: string;
             url_w: string;
-            url_ss: null;
-            url_big: null;
-            url_placeholder: null;
+            url_ss: Unkown;
+            url_big: Unkown;
+            url_placeholder: Unkown;
             upload_timestamp: number;
             location_mask: boolean;
             id: string;
@@ -229,15 +229,15 @@ export interface illustdetails {
             url_ss: string;
             url_big: string;
             url_placeholder: string;
-            ugoira_meta: null;
+            ugoira_meta: Unkown;
             share_text: string;
-            request: null;
+            request: Unkown;
             location_mask: boolean;
             is_login_only: boolean;
             meta: Meta;
             meta_for_nologin: {
                 breadcrumbs: string[];
-                breadcrumbs_translations: null;
+                breadcrumbs_translations: Unkown;
                 zengo_illusts: string[];
                 zengo_id_works: {
                     prev: {
@@ -299,7 +299,7 @@ export interface illustdetails {
                 sketch: boolean;
                 vroidHub: boolean;
             };
-            commission: null;
+            commission: Unkown;
         };
     };
 }
@@ -310,13 +310,13 @@ export interface Sarch {
     body: {
         meta: Meta;
         tag: string;
-        translatedTag: null;
+        translatedTag: Unkown;
         pixpedia: {
             tag: string;
             abstract: string;
-            parent_tag: null;
-            siblings_tags: null;
-            children_tags: null;
+            parent_tag: Unkown;
+            siblings_tags: Unkown;
+            children_tags: Unkown;
             breadcrumbs: string[];
             illust: {
                 id: string;
@@ -340,9 +340,9 @@ export interface Sarch {
             url_s: string;
             url_sm: string;
             url_w: string;
-            url_ss: null;
-            url_big: null;
-            url_placeholder: null;
+            url_ss: Unkown;
+            url_big: Unkown;
+            url_placeholder: Unkown;
             upload_timestamp: number;
             location_mask: boolean;
             id: string;
@@ -358,7 +358,7 @@ export interface Sarch {
             page_count: string;
             comment_off_setting: number;
             ai_type: number;
-            comment: null;
+            comment: Unkown;
             author_details: {
                 user_id: string;
                 user_name: string;
@@ -384,9 +384,9 @@ interface GeneratedType {
             pixpedia: {
                 tag: string;
                 abstract: string;
-                parent_tag: null;
-                siblings_tags: null;
-                children_tags: null;
+                parent_tag: Unkown;
+                siblings_tags: Unkown;
+                children_tags: Unkown;
                 breadcrumbs: string[];
                 illust: {
                     id: number;
@@ -395,8 +395,8 @@ interface GeneratedType {
             };
             bookmarkRanges: {
                 blt: string;
-                bgt: null;
-                count: null;
+                bgt: Unkown;
+                count: Unkown;
                 current: boolean;
             }[];
             relatedTags: {
@@ -434,7 +434,7 @@ interface GeneratedType {
                     comment_off_setting: string;
                     ai_type: string;
                     type: string;
-                    text: null;
+                    text: Unkown;
                     mask_rule_set: {
                         mask: number;
                     };
@@ -473,7 +473,7 @@ interface GeneratedType {
                         comment_off_setting: string;
                         ai_type: string;
                         type: string;
-                        text: null;
+                        text: Unkown;
                         mask_rule_set: {
                             mask: number;
                         };
@@ -510,7 +510,7 @@ interface GeneratedType {
                         comment_off_setting: string;
                         ai_type: string;
                         type: string;
-                        text: null;
+                        text: Unkown;
                         mask_rule_set: {
                             mask: number;
                         };
@@ -547,7 +547,7 @@ interface GeneratedType {
                         comment_off_setting: string;
                         ai_type: string;
                         type: string;
-                        text: null;
+                        text: Unkown;
                         mask_rule_set: {
                             mask: number;
                         };
@@ -633,4 +633,94 @@ interface GeneratedType {
         total: number;
         lastPage: number;
     };
+}
+//https://www.pixiv.net/touch/ajax/illust/series/90304
+export interface illust_series_details {
+    error: boolean;
+    body: {
+        series: {
+            id: string;
+            title: string;
+            caption: string;
+            isSetCover: boolean;
+            coverImage: string;
+            userId: string;
+            workCount: string;
+            share_text: string;
+            firstWorkId: string;
+            display_series_content_count: number;
+            total: string;
+            coverImageSl: number;
+        };
+        isWatched: boolean;
+        isNotifying: boolean;
+    };
+    message: string;
+}
+
+//https://www.pixiv.net/touch/ajax/illust/series_content/90304?limit=10&last_order=0
+interface illust_series_lists {
+    error: boolean;
+    body: {
+        series_contents: {
+            url: string;
+            tags: string[];
+            visible: boolean;
+            title_caption_translation: title_caption_translation;
+            is_mypixiv: boolean;
+            is_private: boolean;
+            is_howto: boolean;
+            is_original: boolean;
+            alt: string;
+            url_s: string;
+            url_sm: string;
+            url_w: string;
+            url_ss: Unkown;
+            url_big: Unkown;
+            url_placeholder: Unkown;
+            upload_timestamp: number;
+            series: {
+                id: string;
+                user_id: string;
+                title: string;
+                caption: string;
+                total: string;
+                content_order: string;
+                url: Unkown;
+                update_date: Unkown;
+                first_illust_id: Unkown;
+                latest_illust_id: Unkown;
+                latest_work: Unkown;
+                user: Unkown;
+                userId: string;
+                coverImage: Unkown;
+                workCount: string;
+                display_series_content_count: string;
+                firstWorkId: Unkown;
+                is_watched: boolean;
+                is_notifying: boolean;
+            };
+            location_mask: boolean;
+            id: string;
+            user_id: string;
+            title: string;
+            width: string;
+            height: string;
+            restrict: string;
+            x_restrict: string;
+            type: string;
+            sl: number;
+            book_style: string;
+            page_count: string;
+            comment_off_setting: number;
+            ai_type: number;
+            comment: string;
+            author_details: {
+                user_id: string;
+                user_name: string;
+                user_account: string;
+            };
+        }[];
+    }
+    message: string;
 }

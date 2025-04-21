@@ -106,3 +106,10 @@ export interface title_caption_translation {
     work_title: null|string;
     work_caption: null|string;
 }
+
+export interface BaseType {
+    error: boolean;
+    message: string;
+}
+
+export type Unkown = any & { readonly __brand: 'Unkown' }
