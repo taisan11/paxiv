@@ -27,7 +27,7 @@ export default createRoute(async (c) => {
                 <a href={`https://www.pixiv.net/artworks/${illust.id}`} target="_blank">{illust.title}</a>
             </div>
         ))}
-        <a href={`/users/${userId}/illusts`}>もっと見る</a>
+        <a href={`/user/${userId}/illusts`}>もっと見る</a>
         <h2>漫画</h2>
         {Object.values(topdata.body.manga).map((manga) => (
             <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -35,7 +35,7 @@ export default createRoute(async (c) => {
                 <a href={`https://www.pixiv.net/artworks/${manga.id}`} target="_blank">{manga.title}</a>
             </div>
         ))}
-        <a href={`/users/${userId}/comics`}>もっと見る</a>
+        <a href={`/user/${userId}/comics`}>もっと見る</a>
     </>
     )
 })
