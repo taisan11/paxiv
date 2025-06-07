@@ -7,11 +7,11 @@ export default createRoute(async (c) => {
     const illustId = c.req.param('id')
     const iluAPIurl = `https://www.pixiv.net/touch/ajax/illust/details?illust_id=${illustId}`
     const illustresp = cache(iluAPIurl,await fetch(iluAPIurl))
-    const illustdata: illustdetails = await illustresp.json()
+    const illustdata = await illustresp.json() as illustdetails
     return c.render(<>
         <h1>{illustdata.body.illust_details.title}</h1>
         <img loading="lazy" src={url2imageURL(illustdata.body.illust_details.url, host(c))} alt={illustdata.body.illust_details.alt} />
-        <p>{illustdata.body.illust_details.meta.description}</p>
+        <p dangerouslySetInnerHTML={{__html:illustdata.body.illust_details.comment_html}}></p>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
             <a href={`https://www.pixiv.net/artworks/${illustId}`} target="_blank">Pixivで見る</a>
         </div>

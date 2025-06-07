@@ -6,7 +6,7 @@ import {fetch} from "@/fetch"
 export default createRoute(async (c) => {
     const userId = c.req.param('id')
     const p = Number(c.req.query("p")) || 1
-    const iluAPIurl = `https://www.pixiv.net/touch/ajax/user/illusts?id=${userId}&p=${p}&type=illust`
+    const iluAPIurl = `https://www.pixiv.net/touch/ajax/user/illusts?id=${userId}&p=${p}&type=manga`
     const illustsresp = cache(iluAPIurl,await fetch(iluAPIurl))
     const illustsdata = await illustsresp.json() as UserIllusts
     return c.render(<>
