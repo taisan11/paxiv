@@ -141,3 +141,89 @@ export interface series_content {
     };
     message: string;
 }
+//https://www.pixiv.net/touch/ajax/user/series?id=userid
+export interface UserSeries {
+    error: boolean;
+    message: string;
+    body: {
+        series: {
+            manga: {
+                id: string;
+                user_id: string;
+                title: string;
+                caption: string;
+                total: string;
+                content_order: null;
+                url: string;
+                update_date: string;
+                first_illust_id: string;
+                latest_illust_id: null;
+                latest_work: null;
+                user: {
+                    user_id: string;
+                    user_status: string;
+                    user_account: string;
+                    user_name: string;
+                    user_premium: string;
+                    profile_img: {
+                        main: string;
+                        main_s: string;
+                    };
+                    profile_img_app_check_status: number;
+                    profile_img_mask_rule_set: {
+                        mask: number;
+                    };
+                };
+                userId: string;
+                coverImage: string;
+                workCount: string;
+                display_series_content_count: string;
+                firstWorkId: string;
+                is_watched: boolean;
+                is_notifying: boolean;
+            }[];
+            novels: {
+                id: string;
+                title: string;
+                titleCaptionTranslation: null;
+                cover: {
+                    urls: {
+                        "240mw": string;
+                        "480mw": string;
+                        "1200x1200": string;
+                        "128x128": string;
+                        original: string;
+                    };
+                };
+                tags: string[];
+                xRestrict: number;
+                isOriginal: boolean;
+                genre: string;
+                createDateTime: string;
+                updateDateTime: string;
+                userId: string;
+                userName: string;
+                profileImageUrl: string;
+                bookmarkCount: number;
+                isOneshot: boolean;
+                caption: string;
+                isConcluded: boolean;
+                episodeCount: number;
+                publishedEpisodeCount: number;
+                latestPublishDateTime: string;
+                latestEpisodeId: string;
+                isWatched: boolean;
+                isNotifying: boolean;
+                restrict: number;
+                textLength: number;
+                wordCount: number;
+                readingTime: number;
+                publishedTextLength: number;
+                publishedWordCount: number;
+                publishedReadingTime: number;
+                useWordCount: boolean;
+                aiType: number;
+            }[];
+        };
+    };
+}
