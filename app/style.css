@@ -1,0 +1,68 @@
+/* 基本的なリセットとレスポンシブ設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 画像のレスポンシブ対応 */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+}
+
+/* 小さめの画像クラス */
+.small-img {
+    max-width: 300px;
+}
+
+.medium-img {
+    max-width: 600px;
+}
+
+/* 基本的なタイポグラフィ */
+h1, h2, h3, h4, h5, h6 {
+    margin: 20px 0 10px 0;
+    line-height: 1.3;
+}
+
+p {
+    margin: 10px 0;
+}
+
+/* リンクスタイル */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+}

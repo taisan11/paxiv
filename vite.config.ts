@@ -13,7 +13,7 @@ export default defineConfig(({ command }) => {
     },
     resolve: {
       alias: {
-        "@": new URL("app", import.meta.url).pathname
+        "@": "/app",
       }
     },
     build: {
