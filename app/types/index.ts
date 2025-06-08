@@ -217,6 +217,12 @@ export interface illustdetails {
                 illust_image_width: string;
                 illust_image_height: string;
             }[];
+            manga_a:{
+                page:number;
+                url: string;
+                url_big: string;
+                url_small: string;
+            }[]|null;
             display_tags: {
                 tag: string;
                 is_pixpedia_article_exists: boolean;

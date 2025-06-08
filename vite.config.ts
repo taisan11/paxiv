@@ -16,6 +16,11 @@ export default defineConfig(({ command }) => {
         "@": new URL("app", import.meta.url).pathname
       }
     },
+    build: {
+      watch: {
+        exclude: ["C:/DumpStack.log.tmp", "./__uno.css"]
+      },
+    },
     plugins: [
       Macros(),
       honox({ devServer: { adapter: isDev ? cloudflare() : undefined } }),
