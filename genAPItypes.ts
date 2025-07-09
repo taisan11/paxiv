@@ -27,6 +27,8 @@ async function generateTypeFromJson(url: string, typeName: string = "GeneratedTy
     function generateInterface(obj: Record<string, any>, name: string = typeName): string {
         let result = `interface ${name} {\n`;
         for (const key in obj) {
+            //フィルタリング
+            if (key === "ads") continue; // adsフィールドを除外
             result += `    ${key}: ${inferType(obj[key])};\n`;
         }
         result += `}`;

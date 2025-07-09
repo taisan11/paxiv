@@ -29,7 +29,9 @@ export default createRoute(async (c) => {
                 <a href={`/novel/${novel.id}`} target="_blank">{novel.title}</a>
             </div>
         ))}
+        <div class="pagination">
         {p != 1 && <a href={`?p=${p - 1}`}>前に戻る</a>}{p != novelsdata.body.lastPage && <a href={`?p=${p + 1}`}>次に進む</a>}
+        </div>
     </>
     )
 })

@@ -1,5 +1,5 @@
 import {createRoute} from "honox/factory"
-import type {Sarch} from "@/types"
+import type {Sarch} from "@/types/search"
 import {fetch} from "@/fetch"
 import { host,url2imageURL } from "@/util"
 
@@ -17,16 +17,16 @@ export default createRoute(async(c)=>{
     sarch.body.illusts.filter((v) => v.url)
     return c.render(<>
         <h1>{sarch.body.tag}の検索結果</h1>
-        <div style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', gap: '1rem',fontsize:'0.8rem',width: '50vw',justifyContent: 'space-between', }}>
+        <nav className="search-tab-bar">
             <a href={`/search?q=${q}`}>トップ</a>
             <a href={`/search/i?q=${q}`}>イラスト</a>
             <a href={`/search/m?q=${q}`}>マンガ</a>
             <a href={`/search/n?q=${q}`}>ノベル</a>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
+        </nav>
+        <div class="search-grid">
             {sarch.body.illusts.map((v) => (
-            <div key={v.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <img loading="lazy" src={url2imageURL(v.url, host(c))} alt={v.title} style={{ display: 'block', maxWidth: '100%', height: 'auto' }}/>
+            <div key={v.id} class="search-item">
+                <img loading="lazy" src={url2imageURL(v.url, host(c))} alt={v.title} class="search-img"/>
                 <a href={`/artworks/${v.id}`}>{v.title}を見る</a>
             </div>
             ))}

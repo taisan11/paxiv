@@ -17,9 +17,10 @@ export default defineConfig(({ command }) => {
       }
     },
     build: {
-      watch: {
-        exclude: ["C:/DumpStack.log.tmp", "./__uno.css"]
-      },
+      // watch: {
+      //   exclude: ["C:/DumpStack.log.tmp", "./__uno.css"]
+      // },
+      cssMinify:"lightningcss"
     },
     plugins: [
       Macros(),
