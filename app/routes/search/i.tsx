@@ -16,6 +16,7 @@ export default createRoute(async(c)=>{
     </>)
     const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/tag_portal?word=${encodeURIComponent(q)}&type=illust_and_ugoira&p=${p}`)).json() as searchillust
     sarch.body.illusts.filter((v) => v.id)
+    sarch.body.illusts = sarch.body.illusts.sort((a, b) => parseInt(b.id) - parseInt(a.id))
     return c.render(<>
         <h1>{q}の検索結果</h1>
         <nav className="search-tab-bar">
