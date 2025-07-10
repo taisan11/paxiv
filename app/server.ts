@@ -2,7 +2,6 @@ import { createApp } from 'honox/server'
 import { showRoutes } from 'hono/dev'
 import {bodyLimit} from "hono/body-limit"
 import {secureHeaders} from "hono/secure-headers"
-import {timeout} from "hono/timeout"
 import {etag} from "hono/etag"
 import {cors} from "hono/cors"
 

@@ -14,8 +14,8 @@ export default createRoute(async(c)=>{
             <button type="submit">検索</button>
         </form>
     </>)
-    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/tag_portal?word=${encodeURIComponent(q)}&type=illust_and_ugoira&p=${p}`)).json() as searchillust
-    sarch.body.illusts.filter((v) => v.id)
+    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/search/illusts?include_meta=1&word=${encodeURIComponent(q)}&type=illust_and_ugoira&s_mode=s_tag&csw=0&p=${p}`)).json() as searchillust
+    sarch.body.illusts = sarch.body.illusts.filter((v) => v.id)
     sarch.body.illusts = sarch.body.illusts.sort((a, b) => parseInt(b.id) - parseInt(a.id))
     return c.render(<>
         <h1>{q}の検索結果</h1>

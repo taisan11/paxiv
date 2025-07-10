@@ -1,3 +1,49 @@
+/* 検索ボックス */
+.searchbox-form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.3rem;
+    margin: 1rem 0;
+}
+.searchbox-form input[type="text"],.searchbox-form button {
+    height: 2.2rem;
+    font-size: 0.95rem;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.searchbox-form input[type="text"] {
+    padding: 0.3rem 0.7rem;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: border 0.2s;
+    width: 200px;
+}
+.searchbox-form button {
+    padding: 0.3rem 0.9rem;
+    background: ButtonFace;
+    color: ButtonText;
+    border: 1px solid #ccc;
+    font-weight: normal;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.searchbox-form button:hover,
+.searchbox-form button:focus {
+    background: #f3f4f6;
+}
+@media (max-width: 600px) {
+    .searchbox-form {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+    .searchbox-form input[type="text"],
+    .searchbox-form button {
+        width: 100%;
+        font-size: 0.9rem;
+        height: 2.1rem;
+    }
+}
 /* ページ送りナビゲーション */
 .pagination {
     display: flex;

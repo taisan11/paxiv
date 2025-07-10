@@ -2,16 +2,14 @@ import {createRoute} from "honox/factory"
 import type {Sarch} from "@/types/search"
 import {fetch} from "@/fetch"
 import { host,url2imageURL } from "@/util"
+import {SearchBox} from "@/components/searchbox"
 
 //pでページを設定
 export default createRoute(async(c)=>{
     const q = c.req.query("q")
     if (!q) return c.render(<>
         <h1>検索</h1>
-        <form action="/search" method="get">
-            <input type="text" name="q" id="q" placeholder="キーワード" />
-            <button type="submit">検索</button>
-        </form>
+        <SearchBox />
     </>)
     const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/tag_portal?word=${encodeURIComponent(q)}`)).json() as Sarch
     sarch.body.illusts.filter((v) => v.url)
