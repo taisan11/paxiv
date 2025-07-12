@@ -1,0 +1,1 @@
+// HonoXのclient pluginで/app/client.tsが必ず読み込まれるようになってるためエントリポイントを作成.

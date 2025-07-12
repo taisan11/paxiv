@@ -9,7 +9,7 @@ export default defineConfig(({ command }) => {
 
   return {
     css: {
-      transformer: "lightningcss"
+      transformer: "lightningcss" as const
     },
     resolve: {
       alias: {
@@ -23,8 +23,8 @@ export default defineConfig(({ command }) => {
       cssMinify:"lightningcss"
     },
     plugins: [
-      Macros(),
-      honox({ devServer: { adapter: isDev ? cloudflare() : undefined } }),
+      // Macros(),
+      honox({ devServer: { adapter: isDev ? cloudflare() : undefined },client:{input:["/app/style.css","/app/setting.ts","/app/dark.ts"]} }),
       build({})
     ]
   };
