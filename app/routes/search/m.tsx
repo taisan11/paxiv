@@ -14,7 +14,23 @@ export default createRoute(async(c)=>{
             <button type="submit">検索</button>
         </form>
     </>)
-    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/search/illusts?word=${encodeURIComponent(q)}&type=manga&p=${p}`)).json() as searchmanga
+    const sarch = await (
+        await fetch(
+            `https://www.pixiv.net/touch/ajax/search/illusts?include_meta=1&ai_type=1&s_mode=s_tag&type=manga&word=${encodeURIComponent(q)}&csw=0&p=${p}`
+        )
+    ).json() as searchmanga
+    if (!sarch.body.illusts) {
+        return c.render(<>
+            <h1>{q}の検索結果</h1>
+            <nav className="search-tab-bar">
+                <a href={`/search?q=${q}`}>トップ</a>
+                <a href={`/search/i?q=${q}`}>イラスト</a>
+                <a href={`/search/m?q=${q}`}>マンガ</a>
+                <a href={`/search/n?q=${q}`}>ノベル</a>
+            </nav>
+            <p>該当するマンガが見つからなかったか、リクエストでエラーが発生しました。</p>
+        </>)
+    }
     sarch.body.illusts = sarch.body.illusts.filter((v) => v.id)
     sarch.body.illusts = sarch.body.illusts.sort((a, b) => parseInt(b.id) - parseInt(a.id))
     return c.render(<>

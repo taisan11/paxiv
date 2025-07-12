@@ -14,7 +14,7 @@ export default createRoute(async(c)=>{
             <button type="submit">検索</button>
         </form>
     </>)
-    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/search/novels?include_meta=1&csw=0&p=${p}&word=${encodeURIComponent(q)}&type=manga`)).json() as searchnovel
+    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/search/novels?include_meta=1&csw=0&p=${p}&word=${encodeURIComponent(q)}`)).json() as searchnovel
     sarch.body.novels = sarch.body.novels.filter((v) => v.id)
     sarch.body.novels = sarch.body.novels.sort((a, b) => parseInt(b.id) - parseInt(a.id))
     return c.render(<>

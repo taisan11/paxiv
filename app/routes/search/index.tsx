@@ -12,7 +12,7 @@ export default createRoute(async(c)=>{
         <SearchBox />
     </>)
     const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/tag_portal?word=${encodeURIComponent(q)}`)).json() as Sarch
-    sarch.body.illusts.filter((v) => v.url)
+    sarch.body.illusts = sarch.body.illusts.filter((v) => v.url)
     return c.render(<>
         <h1>{sarch.body.tag}の検索結果</h1>
         <nav className="search-tab-bar">
