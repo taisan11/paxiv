@@ -18,7 +18,7 @@ export default createRoute(async (c) => {
             <p>合計{seriDetailData.body.series.total}個のイラスト</p>
             {seriContentData.body.series_contents.map((illust) => (
                 <div key={illust.id} style={{ display: 'flex', flexDirection: 'row' }}>
-                    <img loading="lazy" src={url2imageURL(illust.url, host(c))} alt={illust.title} />
+                    <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} />
                     <a href={`/artworks/${illust.id}`} target="_blank" rel="noopener noreferrer">{illust.title}</a>
                 </div>
             ))}

@@ -28,7 +28,7 @@ export default createRoute(async(c)=>{
         <div class="list-base-grid">
             {sarch.body.novels.map((novel) => (
                 <div class="list-base-item" key={novel.id}>
-                    <img loading="lazy" src={url2imageURL(novel.url, host(c))} alt={novel.title} class="list-base-image"/>
+                    <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-image"/>
                     <a href={`/novel/${novel.id}`}>{novel.title}</a>
                 </div>
             ))}

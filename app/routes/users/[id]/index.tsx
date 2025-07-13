@@ -19,7 +19,7 @@ export default createRoute(async (c) => {
     return c.render(<>
         <h1>{userdata.body.user_details.user_name}</h1>
         <div dangerouslySetInnerHTML={{__html:userdata.body.user_details.user_comment_html}}></div>
-        <img loading="lazy" src={url2imageURL(userdata.body.user_details.profile_img.main, host(c))} alt="プロフィール画像" />
+        <img loading="lazy" src={url2imageURL(userdata.body.user_details.profile_img.main)} alt="プロフィール画像" />
         <div style={{ display: 'flex', flexDirection: 'row' }}>
             {userdata.body.user_details.social.twitter.url && <a href={userdata.body.user_details.social.twitter.url} target="_blank">Twitter</a>}
             {userdata.body.user_details.user_webpage && <a href={userdata.body.user_details.user_webpage.startsWith("http") ? userdata.body.user_details.user_webpage : `https://${userdata.body.user_details.user_webpage}`} target="_blank">Webサイト</a>}
@@ -28,7 +28,7 @@ export default createRoute(async (c) => {
         <div class="list-base-grid">
         {Object.values(homedata.body.work_sets.all.data).map((illust) => (
             <div key={illust.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(illust.url, host(c))} alt={illust.title} class="list-base-image"/>
+                <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-image"/>
                 <a href={`/artworks/${illust.id}`}>{illust.title}</a>
             </div>
         ))}
@@ -39,7 +39,7 @@ export default createRoute(async (c) => {
         <div class="list-base-grid">
             {Object.values(homedata.body.work_sets.novels.data).map((novel) => (
                 <div key={novel.id} class="list-base-item">
-                    <img loading="lazy" src={url2imageURL(novel.url, host(c))} alt={novel.title} class="list-base-image" />
+                    <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-image" />
                     <a href={`/novel/${novel.id}`}>{novel.title}</a>
                 </div>
             ))}

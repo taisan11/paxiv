@@ -18,7 +18,7 @@ export default createRoute(async (c) => {
         <h2>シリーズ</h2>
         {seriesdata.body.series.novels.map((series) => (
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <img loading="lazy" src={url2imageURL(series.cover.urls["128x128"], host(c))} alt={series.title} />
+                <img loading="lazy" src={url2imageURL(series.cover.urls["128x128"])} alt={series.title} />
                 <a href={`/series/${series.id}`} target="_blank">{series.title}</a>
             </div>
         ))}
@@ -26,7 +26,7 @@ export default createRoute(async (c) => {
         <div class="list-base-grid">
         {novelsdata.body.novels.map((novel) => (
             <div key={novel.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(novel.url, host(c))} alt={novel.title} class="list-base-image"/>
+                <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-image"/>
                 <a href={`/novel/${novel.id}`} target="_blank">{novel.title}</a>
             </div>
         ))}

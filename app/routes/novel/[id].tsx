@@ -10,7 +10,7 @@ export default createRoute(async (c) => {
     const NovelData = await Novelresp.json() as novel_details
     return c.render(<>
         <h1 id="title">{NovelData.body.novel_details.title}</h1>
-        <img loading="lazy" src={url2imageURL(NovelData.body.novel_details.url, host(c))} alt="表紙"/>
+        <img loading="lazy" src={url2imageURL(NovelData.body.novel_details.url)} alt="表紙"/>
         <p dangerouslySetInnerHTML={{__html:NovelData.body.novel_details.comment_html}}></p>
         <hr />
         <div>{NovelData.body.novel_details.text.split("\n").map((v, i)=>{

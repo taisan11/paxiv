@@ -44,7 +44,7 @@ export default createRoute(async(c)=>{
         <div class="list-base-grid">
             {sarch.body.illusts.map((v) => (
             <div key={v.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(v.url, host(c))} alt={v.title} class="list-base-img"/>
+                <img loading="lazy" src={url2imageURL(v.url)} alt={v.title} class="list-base-img"/>
                 <a href={`/artworks/${v.id}`}>{v.title}を見る</a>
             </div>
             ))}

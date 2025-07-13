@@ -15,7 +15,7 @@ export default createRoute(async (c) => {
         <div class="list-base-grid">
         {illustsdata.body.illusts.map((illust) => (
             <div key={illust.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(illust.url, host(c))} alt={illust.title} class="list-base-image"/>
+                <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-image"/>
                 <a href={`/artworks/${illust.id}`} target="_blank">{illust.title}</a>
             </div>
         ))}

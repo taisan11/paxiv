@@ -1,6 +1,6 @@
 import type { Context } from "hono"
 
-export function url2imageURL(url: string, host: string): string {
+export function url2imageURL(url: string): string {
     if (!url) {return ""}
     const i = new URL(url)
     if (i.hostname === "i.pximg.net") {
@@ -13,7 +13,7 @@ export function url2imageURL(url: string, host: string): string {
     throw new Error("Invalid URL")
 }
 
-export const host = (c:Context) => c.env.HOST as string
+// export const host = (c:Context) => c.env.HOST as string
 
 const cachebase = caches.default;
 

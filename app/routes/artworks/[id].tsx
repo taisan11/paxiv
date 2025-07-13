@@ -15,11 +15,11 @@ export default createRoute(async (c) => {
             .sort((a, b) => a.page - b.page)
             .map((manga, index) => (
                 <>
-                <img key={index} loading="lazy" src={url2imageURL(manga.url, host(c))} alt={manga.page.toString()} /><br/>
+                <img key={index} loading="lazy" src={url2imageURL(manga.url)} alt={manga.page.toString()} /><br/>
                 </>
             ))
             :
-            <img loading="lazy" src={url2imageURL(illustdata.body.illust_details.url, host(c))} alt={illustdata.body.illust_details.alt} />
+            <img loading="lazy" src={url2imageURL(illustdata.body.illust_details.url)} alt={illustdata.body.illust_details.alt} />
         }
         <p dangerouslySetInnerHTML={{__html:illustdata.body.illust_details.comment_html}}></p>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
