@@ -11,7 +11,13 @@
   },
   "vars": {
     "HOST": "http://localhost:5173/"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "paxiv.taisan11.f5.si",
+      "custom_domain": true
+    }
+  ]
   // "kv_namespaces": [
   //   {
   //     "binding": "MY_KV_NAMESPACE",
