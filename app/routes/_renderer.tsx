@@ -11,6 +11,7 @@ export default jsxRenderer(({ children, title }) => {
         <Link href='/app/style.css' rel='stylesheet' />
         <Script src='/app/dark.ts' />
         <Script src='/app/history.ts' />
+        <Script src='/app/search-options.ts' />
         {/* <Script src='/app/client.ts' /> */}
         {title ? <title>{title} - paxiv</title> : <title>paxiv</title>}
       </head>

@@ -20,11 +20,11 @@ export default defineConfig(({ command }) => {
       // watch: {
       //   exclude: ["C:/DumpStack.log.tmp", "./__uno.css"]
       // },
-      cssMinify:"lightningcss"
+      cssMinify: "lightningcss"
     },
     plugins: [
       // Macros(),
-      honox({ devServer: { adapter: isDev ? cloudflare() : undefined },client:{input:["/app/style.css","/app/setting.ts","/app/dark.ts","/app/history.ts"]} }),
+      honox({ devServer: { adapter: isDev ? cloudflare() : undefined },client:{input:["/app/style.css","/app/setting.ts","/app/dark.ts","/app/history.ts","/app/search-options.ts"]} }),
       build({})
     ]
   };

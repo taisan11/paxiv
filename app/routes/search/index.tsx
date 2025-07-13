@@ -1,8 +1,9 @@
 import {createRoute} from "honox/factory"
 import type {Sarch} from "@/types/search"
 import {fetch,withAuth} from "@/fetch"
-import { host,url2imageURL } from "@/util"
+import { url2imageURL } from "@/util"
 import {SearchBox} from "@/components/searchbox"
+import { SearchOptions } from "@/components/SearchOptions"
 import {getCookie} from "hono/cookie"
 
 //pでページを設定
@@ -19,6 +20,7 @@ export default createRoute(async(c)=>{
     sarch.body.illusts = sarch.body.illusts.filter((v) => v.url)
     return c.render(<>
         <h1>{sarch.body.tag}の検索結果</h1>
+        <SearchOptions formAction="/search" currentQuery={q} />
         <nav className="search-tab-bar">
             <a href={`/search?q=${q}`}>トップ</a>
             <a href={`/search/i?q=${q}`}>イラスト</a>
