@@ -24,7 +24,7 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       // Macros(),
-      honox({ devServer: { adapter: isDev ? cloudflare() : undefined },client:{input:["/app/style.css","/app/setting.ts","/app/dark.ts"]} }),
+      honox({ devServer: { adapter: isDev ? cloudflare() : undefined },client:{input:["/app/style.css","/app/setting.ts","/app/dark.ts","/app/history.ts"]} }),
       build({})
     ]
   };
