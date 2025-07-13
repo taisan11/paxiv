@@ -1,11 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "paxiv",
-  "compatibility_date": "2025-05-18",
+  "compatibility_date": "2025-07-18",
   "main":"./dist/index.js",
   "compatibility_flags": [
     "nodejs_compat"
   ],
+  "assets": {
+    "directory": "./dist"
+  },
   "vars": {
     "HOST": "http://localhost:5173/"
   }

@@ -8,8 +8,8 @@ export default jsxRenderer(({ children, title }) => {
         <meta charset='UTF-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <Link href='/app/style.css' rel='stylesheet' />
-        <Script src='/app/dark.ts'></Script>
-        <Script src='/app/history.ts'></Script>
+        <Script src='app/dark.ts'></Script>
+        <Script src='app/history.ts'></Script>
         {title ? <title>{title} - paxiv</title> : <title>paxiv</title>}
       </head>
       <body>
