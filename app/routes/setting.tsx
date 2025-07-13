@@ -1,6 +1,6 @@
 import { createRoute } from "honox/factory"
 import {getCookie,setCookie} from "hono/cookie"
-import {Script} from "honox/server"
+import {Script} from "@/components/Script"
 
 export default createRoute(async (c) => {
     return c.render(
