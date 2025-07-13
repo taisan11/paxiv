@@ -16,4 +16,20 @@ function _fetch(url: string | URL, init?: RequestInit, lang: string = "ja"): Pro
     }
 }
 
+export function withAuth(PHPSESSID:string,CSRFToken:string,UserID:string,init?: RequestInit): RequestInit {
+    if (!init) {
+        init = {};
+    }
+    if (!init.headers) {
+        init.headers = {};
+    }
+    //@ts-expect-error
+    init.headers["X-Csrf-Token"] = CSRFToken;
+    //@ts-expect-error
+    init.headers["x-user-id"] = UserID;
+    //@ts-expect-error
+    init.headers["Cookie"] = `${init.headers["Cookie"]};PHPSESSID=${PHPSESSID};`;
+    return init;
+}
+
 export { _fetch as fetch };

@@ -30,15 +30,15 @@ export default createRoute(async (c) => {
                 <label>
                     <span>PHPSESSID Cookie:</span>
                     <input type="text" name="PHPSESSID" defaultValue={getCookie(c, "PHPSESSID") || ""} />
-                </label>
+                </label><br />
                 <label>
                     <span>X-Csrf-Token ヘッダー:</span>
                     <input type="text" name="X-Csrf-Token" defaultValue={getCookie(c, "X-Csrf-Token") || ""} />
-                </label>
+                </label><br />
                 <label>
                     <span>PixivのユーザーID:</span>
                     <input type="text" name="userId" defaultValue={getCookie(c, "userId") || ""} />
-                </label>
+                </label><br />
                 <button type="submit">ログイン</button>
             </form>
         </>

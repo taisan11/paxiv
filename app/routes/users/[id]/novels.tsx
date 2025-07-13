@@ -23,12 +23,14 @@ export default createRoute(async (c) => {
             </div>
         ))}
         <p>合計{novelsdata.body.total}個の小説</p>
+        <div class="list-base-grid">
         {novelsdata.body.novels.map((novel) => (
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <img loading="lazy" src={url2imageURL(novel.url, host(c))} alt={novel.title} />
+            <div key={novel.id} class="list-base-item">
+                <img loading="lazy" src={url2imageURL(novel.url, host(c))} alt={novel.title} class="list-base-image"/>
                 <a href={`/novel/${novel.id}`} target="_blank">{novel.title}</a>
             </div>
         ))}
+        </div>
         <div class="pagination">
         {p != 1 && <a href={`?p=${p - 1}`}>前に戻る</a>}{p != novelsdata.body.lastPage && <a href={`?p=${p + 1}`}>次に進む</a>}
         </div>

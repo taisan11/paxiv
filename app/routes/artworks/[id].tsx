@@ -9,6 +9,7 @@ export default createRoute(async (c) => {
     const illustresp = cache(iluAPIurl, await fetch(iluAPIurl))
     const illustdata = await illustresp.json() as illustdetails
     return c.render(<>
+        <h1 id="title">{illustdata.body.illust_details.title}</h1>
         {illustdata.body.illust_details.manga_a ?
             illustdata.body.illust_details.manga_a
             .sort((a, b) => a.page - b.page)

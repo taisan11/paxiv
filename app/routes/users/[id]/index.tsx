@@ -25,21 +25,26 @@ export default createRoute(async (c) => {
             {userdata.body.user_details.user_webpage && <a href={userdata.body.user_details.user_webpage.startsWith("http") ? userdata.body.user_details.user_webpage : `https://${userdata.body.user_details.user_webpage}`} target="_blank">Webサイト</a>}
         </div>
         <h2>イラスト|漫画</h2>
+        <div class="list-base-grid">
         {Object.values(homedata.body.work_sets.all.data).map((illust) => (
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <img loading="lazy" src={url2imageURL(illust.url, host(c))} alt={illust.title} />
+            <div key={illust.id} class="list-base-item">
+                <img loading="lazy" src={url2imageURL(illust.url, host(c))} alt={illust.title} class="list-base-image"/>
                 <a href={`/artworks/${illust.id}`}>{illust.title}</a>
             </div>
         ))}
-        <a href={`/user/${userId}/illusts`}>イラストをもっと見る</a>
+        </div>
+        <a href={`/user/${userId}/illusts`}>イラストをもっと見る</a><br />
         <a href={`/user/${userId}/comics`}>漫画をもっと見る</a>
         <h2>小説</h2>
-        {Object.values(homedata.body.work_sets.novels.data).map((novel) => (
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <img loading="lazy" src={url2imageURL(novel.url, host(c))} alt={novel.title} />
-                <a href={`/novel/${novel.id}`}>{novel.title}</a>
-            </div>
-        ))}
+        <div class="list-base-grid">
+            {Object.values(homedata.body.work_sets.novels.data).map((novel) => (
+                <div key={novel.id} class="list-base-item">
+                    <img loading="lazy" src={url2imageURL(novel.url, host(c))} alt={novel.title} class="list-base-image" />
+                    <a href={`/novel/${novel.id}`}>{novel.title}</a>
+                </div>
+            ))}
+        </div>
+        <a href={`/user/${userId}/novels`}>小説をもっと見る</a>
     </>
     )
 })

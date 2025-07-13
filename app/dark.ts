@@ -9,14 +9,11 @@ function applyTheme(theme: Theme): void {
     const html = document.documentElement;
     html.removeAttribute('data-theme');
     if (theme === 'light') {
-        console.log("らいと")
         html.setAttribute('data-theme', 'light');
     } else if (theme === 'dark') {
-        console.log("だーく")
         html.setAttribute('data-theme', 'dark');
     }
-    console.log("おーと...?")
-    // 'auto'の場合は何も設定しない
+    // 'auto'の場合は何もしない
 }
 
 function addThemeChangeListener(getTheme: () => Theme, apply: (theme: Theme) => void): void {
@@ -32,7 +29,6 @@ function addThemeChangeListener(getTheme: () => Theme, apply: (theme: Theme) => 
 
 document.addEventListener('DOMContentLoaded', () => {
     const theme = getCurrentTheme();
-    console.log("Current theme:", theme);
     applyTheme(theme);
     addThemeChangeListener(getCurrentTheme, applyTheme);
 });

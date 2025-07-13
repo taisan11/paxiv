@@ -25,11 +25,11 @@ export default createRoute(async(c)=>{
             <a href={`/search/m?q=${q}`}>マンガ</a>
             <a href={`/search/n?q=${q}`}>ノベル</a>
         </nav>
-        <div class="search-grid">
+        <div class="list-base-grid">
             {sarch.body.novels.map((novel) => (
-                <div class="search-item" key={novel.id}>
-                    <img loading="lazy" src={url2imageURL(novel.url, host(c))} alt={novel.title} />
-                    <a href={`/novel/${novel.id}`} target="_blank">{novel.title}</a>
+                <div class="list-base-item" key={novel.id}>
+                    <img loading="lazy" src={url2imageURL(novel.url, host(c))} alt={novel.title} class="list-base-image"/>
+                    <a href={`/novel/${novel.id}`}>{novel.title}</a>
                 </div>
             ))}
         </div>

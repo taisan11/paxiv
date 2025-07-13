@@ -1,8 +1,9 @@
 import {createRoute} from "honox/factory"
 import type {Sarch} from "@/types/search"
-import {fetch} from "@/fetch"
+import {fetch,withAuth} from "@/fetch"
 import { host,url2imageURL } from "@/util"
 import {SearchBox} from "@/components/searchbox"
+import {getCookie} from "hono/cookie"
 
 //pでページを設定
 export default createRoute(async(c)=>{
@@ -11,7 +12,10 @@ export default createRoute(async(c)=>{
         <h1>検索</h1>
         <SearchBox />
     </>)
-    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/tag_portal?word=${encodeURIComponent(q)}`)).json() as Sarch
+    const cookie = getCookie(c, "PHPSESSID")
+    const csrfToken = getCookie(c, "X-Csrf-Token")
+    const userId = getCookie(c, "userId")
+    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/tag_portal?word=${encodeURIComponent(q)}`,withAuth(cookie!,csrfToken!,userId!))).json() as Sarch
     sarch.body.illusts = sarch.body.illusts.filter((v) => v.url)
     return c.render(<>
         <h1>{sarch.body.tag}の検索結果</h1>

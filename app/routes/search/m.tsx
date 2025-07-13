@@ -41,10 +41,10 @@ export default createRoute(async(c)=>{
             <a href={`/search/m?q=${q}`}>マンガ</a>
             <a href={`/search/n?q=${q}`}>ノベル</a>
         </nav>
-        <div class="search-grid">
+        <div class="list-base-grid">
             {sarch.body.illusts.map((v) => (
-            <div key={v.id} class="search-item">
-                <img loading="lazy" src={url2imageURL(v.url, host(c))} alt={v.title} class="search-img"/>
+            <div key={v.id} class="list-base-item">
+                <img loading="lazy" src={url2imageURL(v.url, host(c))} alt={v.title} class="list-base-img"/>
                 <a href={`/artworks/${v.id}`}>{v.title}を見る</a>
             </div>
             ))}

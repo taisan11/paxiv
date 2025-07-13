@@ -9,7 +9,7 @@ export default createRoute(async (c) => {
     const Novelresp = cache(NovAPIurl,await fetch(NovAPIurl))
     const NovelData = await Novelresp.json() as novel_details
     return c.render(<>
-        <h1>{NovelData.body.novel_details.title}</h1>
+        <h1 id="title">{NovelData.body.novel_details.title}</h1>
         <img loading="lazy" src={url2imageURL(NovelData.body.novel_details.url, host(c))} alt="表紙"/>
         <p dangerouslySetInnerHTML={{__html:NovelData.body.novel_details.comment_html}}></p>
         <hr />
