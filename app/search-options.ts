@@ -6,8 +6,6 @@ window.addEventListener('DOMContentLoaded', () => {
     if (toggle && content) {
         toggle.addEventListener('click', () => {
             content.classList.toggle('active');
-            toggle.textContent = content.classList.contains('active') ? 
-                '検索オプションを閉じる' : '検索オプションを開く';
         });
     }
     

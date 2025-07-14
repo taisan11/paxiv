@@ -502,20 +502,16 @@ header nav a:focus {
 .search-options {
     background: var(--bg-secondary);
     border-radius: 8px;
-    padding: 1rem;
-    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    margin: 0rem 0;
     box-shadow: 0 1px 4px var(--shadow-light);
 }
 
 .search-options-toggle {
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 0.5rem 1rem;
     color: var(--text-primary);
     cursor: pointer;
-    font-weight: 500;
-    margin-bottom: 1rem;
     transition: all 0.2s;
 }
 

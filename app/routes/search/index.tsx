@@ -2,7 +2,6 @@ import {createRoute} from "honox/factory"
 import type {Sarch} from "@/types/search"
 import {fetch,withAuth} from "@/fetch"
 import { url2imageURL } from "@/util"
-import {SearchBox} from "@/components/searchbox"
 import { SearchOptions } from "@/components/SearchOptions"
 import {getCookie} from "hono/cookie"
 
@@ -11,7 +10,7 @@ export default createRoute(async(c)=>{
     const q = c.req.query("q")
     if (!q) return c.render(<>
         <h1>検索</h1>
-        <SearchBox />
+        <SearchOptions formAction="/search" showOptions={false} />
     </>)
     const cookie = getCookie(c, "PHPSESSID")
     const csrfToken = getCookie(c, "X-Csrf-Token")

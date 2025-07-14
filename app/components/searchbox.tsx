@@ -1,8 +1,3 @@
-export function SearchBox() {
-    return (
-        <form action="/search" method="get" class="searchbox-form">
-            <input type="text" name="q" id="q" placeholder="キーワード" />
-            <button type="submit">検索</button>
-        </form>
-    );
-}
+// このファイルは後方互換性のために残されています
+// 新しいコードでは SearchOptions コンポーネントを直接使用してください
+export { SearchBox, SearchOptions } from './SearchOptions'
