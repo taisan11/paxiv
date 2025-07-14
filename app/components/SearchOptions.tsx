@@ -79,6 +79,3 @@ export const SearchOptions: FC<SearchOptionsProps> = ({
         </form>
     )
 }
-
-// 後方互換性のためのエイリアス
-export const SearchBox = () => <SearchOptions formAction="/search" showOptions={false} />
