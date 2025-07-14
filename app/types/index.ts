@@ -595,7 +595,7 @@ export interface illust_series_details {
 }
 
 //https://www.pixiv.net/touch/ajax/illust/series_content/90304?limit=10&last_order=0
-interface illust_series_lists {
+export interface illust_series_lists {
     error: boolean;
     body: {
         series_contents: {
@@ -659,4 +659,12 @@ interface illust_series_lists {
         }[];
     }
     message: string;
+}
+//https://www.pixiv.net/touch/ajax/illust/user_illusts?user_id=11365815&lang=ja&version=2b87855afe95c77172adc1258f5c00665025d93c
+export interface UserIllustsUnder {
+    error: boolean;
+    message: string;
+    body: {
+        user_illust_ids: string[];
+    };
 }

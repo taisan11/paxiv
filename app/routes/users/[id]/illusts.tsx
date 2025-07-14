@@ -1,6 +1,6 @@
 import {createRoute} from "honox/factory"
 import {UserIllusts} from "@/types"
-import { url2imageURL,host,cache } from "@/util"
+import { url2imageURL,cache } from "@/util"
 import {fetch} from "@/fetch"
 
 export default createRoute(async (c) => {
