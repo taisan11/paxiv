@@ -44,10 +44,9 @@ export default createRoute(async(c)=>{
         <SearchTabBar q={q} />
         <div class="list-base-grid">
             {sarch.body.novels.map((novel) => (
-                <div class="list-base-item" key={novel.id}>
+                <a href={`/novel/${novel.id}`} class="list-base-item" key={novel.id}>
                     <img loading="lazy" src={url2imageURL(novel.url ?? "")} alt={novel.title} class="list-base-img"/>
-                    <a href={`/novel/${novel.id}`}>{novel.title}</a>
-                </div>
+                </a>
             ))}
         </div>
         <Pagination currentPage={p} lastPage={sarch.body.lastPage} currentUrl={c.req.url} />

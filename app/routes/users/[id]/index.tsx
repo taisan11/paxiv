@@ -30,10 +30,9 @@ export default createRoute(async (c) => {
         <h2>イラスト|漫画</h2>
         <div class="list-base-grid">
         {Object.values(homedata.body.work_sets.all.data).map((illust) => (
-            <div key={illust.id} class="list-base-item">
+            <a href={`/artworks/${illust.id}`} key={illust.id} class="list-base-item">
                 <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-img"/>
-                <a href={`/artworks/${illust.id}`}>{illust.title}</a>
-            </div>
+            </a>
         ))}
         </div>
         <a href={`/user/${userId}/illusts`}>イラストをもっと見る</a><br />
@@ -41,10 +40,9 @@ export default createRoute(async (c) => {
         <h2>小説</h2>
         <div class="list-base-grid">
             {Object.values(homedata.body.work_sets.novels.data).map((novel) => (
-                <div key={novel.id} class="list-base-item">
+                <a href={`/novel/${novel.id}`} key={novel.id} class="list-base-item">
                     <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-img" />
-                    <a href={`/novel/${novel.id}`}>{novel.title}</a>
-                </div>
+                </a>
             ))}
         </div>
         <a href={`/user/${userId}/novels`}>小説をもっと見る</a>

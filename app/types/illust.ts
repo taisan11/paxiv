@@ -110,13 +110,21 @@ export interface IllustDetails {
                 title: string;
                 twitter_card: { [key: string]: string };
             };
+            /** シリーズ情報（シリーズ作品のみ存在） */
+            series?: {
+                id: string;
+                title: string;
+                user_id: string;
+                content_order?: string | null;
+                total?: string | null;
+            } | null;
             meta_for_nologin: {
                 breadcrumbs: string[];
                 breadcrumbs_translations: null;
                 pixpedia: { abstract: string; tag: string; url: string }[];
                 zengo_id_works: {
-                    next: { id: string; title: string };
-                    prev: { id: string; title: string };
+                    next: { id: string; title: string } | null;
+                    prev: { id: string; title: string } | null;
                 };
                 zengo_illusts: string[];
             };

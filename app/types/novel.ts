@@ -125,13 +125,13 @@ export interface NovelDetails {
                 breadcrumbs: string[];
                 breadcrumbs_translations: null;
                 zengo_id_works: {
-                    prev: { id: string; title: string };
-                    next: { id: string; title: string };
+                    prev: { id: string; title: string } | null;
+                    next: { id: string; title: string } | null;
                 };
                 latest_novel_ids: string[];
                 zengo_novel_ids: string[];
             };
-            series: {
+            series?: {
                 id: string;
                 title: string;
                 content_order: number;
@@ -141,14 +141,19 @@ export interface NovelDetails {
                 is_notifying: boolean;
                 has_glossary: boolean;
                 is_replaceable: boolean;
-                next_novel: null;
+                next_novel: {
+                    id: number;
+                    viewable_type: number;
+                    content_order: number;
+                    title: string;
+                } | null;
                 prev_novel: {
                     id: number;
                     viewable_type: number;
                     content_order: number;
                     title: string;
-                };
-            };
+                } | null;
+            } | null;
             title_caption_translation: { work_title: null; work_caption: null };
             cover_image: {
                 urls: {

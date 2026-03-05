@@ -25,10 +25,9 @@ export default createRoute(async (c) => {
         <p>合計{novelsdata.body.total}個の小説</p>
         <div class="list-base-grid">
         {novelsdata.body.novels.map((novel) => (
-            <div key={novel.id} class="list-base-item">
+            <a href={`/novel/${novel.id}`} key={novel.id} class="list-base-item">
                 <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-img"/>
-                <a href={`/novel/${novel.id}`} target="_blank">{novel.title}</a>
-            </div>
+            </a>
         ))}
         </div>
         <div class="pagination">

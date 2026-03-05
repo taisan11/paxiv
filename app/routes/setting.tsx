@@ -16,6 +16,41 @@ export default createRoute(async (c) => {
                 <option value="auto">自動</option>
             </select>
             <button id="save-thema">テーマを保存</button>
+            <h2>小説の表示設定</h2>
+            <p>小説ページでのテキスト表示設定です。設定はブラウザに保存されます。</p>
+            <div>
+                <label for="novel-font-family">フォント: </label>
+                <select name="novel-font-family" id="novel-font-family">
+                    <option value="serif">明朝体（serif）</option>
+                    <option value="sans-serif">ゴシック体（sans-serif）</option>
+                    <option value="monospace">等幅（monospace）</option>
+                </select>
+            </div>
+            <div>
+                <label for="novel-font-size">文字サイズ: </label>
+                <select name="novel-font-size" id="novel-font-size">
+                    <option value="small">小（14px）</option>
+                    <option value="medium">中（16px）</option>
+                    <option value="large">大（18px）</option>
+                    <option value="xlarge">特大（22px）</option>
+                </select>
+            </div>
+            <div>
+                <label for="novel-line-height">行間: </label>
+                <select name="novel-line-height" id="novel-line-height">
+                    <option value="compact">狭め</option>
+                    <option value="normal">標準</option>
+                    <option value="wide">広め</option>
+                </select>
+            </div>
+            <div>
+                <label for="novel-letter-spacing">文字間隔: </label>
+                <select name="novel-letter-spacing" id="novel-letter-spacing">
+                    <option value="normal">標準</option>
+                    <option value="wide">少し広め</option>
+                    <option value="wider">広め</option>
+                </select>
+            </div>
             <h2>ログイン情報</h2>
             <p>ログイン情報はcookieに保存されます。</p>
             <p>

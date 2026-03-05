@@ -564,3 +564,142 @@ header nav a:focus {
         grid-template-columns: 1fr;
     }
 }
+
+/* 小説テキスト */
+.novel-text {
+    max-width: 700px;
+    margin: 1.5rem auto;
+    padding: 1rem;
+    font-family: serif;
+    font-size: 16px;
+    line-height: 2.0;
+}
+
+.novel-text p {
+    margin: 0.2em 0;
+}
+
+/* マンガ全画面ビューア */
+.viewer-open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.2rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0.8rem 0;
+    transition: all 0.2s;
+}
+
+.viewer-open-btn:hover {
+    background: var(--accent-hover);
+    color: var(--accent-primary);
+}
+
+.manga-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 9999;
+    flex-direction: column;
+    display: none;
+}
+
+.viewer-close {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10000;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.viewer-close:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.viewer-scroll {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 100vh;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.viewer-scroll::-webkit-scrollbar {
+    height: 4px;
+}
+
+.viewer-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+.viewer-img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+}
+/* ビューア情報ページ（最終ページ） */
+.viewer-info-page {
+    width: 100vw;
+    min-width: 100vw;
+    height: 100vh;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    box-sizing: border-box;
+    background: #111;
+    color: #fff;
+    gap: 1rem;
+    overflow-y: auto;
+}
+.viewer-info-author { font-size: 0.9rem; opacity: 0.7; margin: 0; }
+.viewer-info-author a { color: #adf; text-decoration: none; }
+.viewer-info-author a:hover { text-decoration: underline; }
+.viewer-info-title { font-size: 1.6rem; margin: 0; text-align: center; }
+.viewer-info-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; }
+.viewer-tag { background: rgba(255,255,255,0.15); color: #ddf; text-decoration: none; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.85rem; }
+.viewer-tag:hover { background: rgba(255,255,255,0.3); }
+.viewer-series-link { color: #adf; text-decoration: none; font-size: 1rem; padding: 0.4rem 1rem; border: 1px solid rgba(170,221,255,0.4); border-radius: 6px; }
+.viewer-series-link:hover { background: rgba(170,221,255,0.15); }
+.viewer-prev-next { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.viewer-nav-btn { color: #fff; background: rgba(255,255,255,0.15); text-decoration: none; padding: 0.5rem 1.2rem; border-radius: 6px; font-size: 0.9rem; transition: background 0.2s; }
+.viewer-nav-btn:hover { background: rgba(255,255,255,0.3); }
+.viewer-pixiv-link { color: #0096fa; text-decoration: none; font-size: 0.9rem; opacity: 0.8; }
+.viewer-pixiv-link:hover { opacity: 1; text-decoration: underline; }
+
+/* シリーズナビゲーション */
+.series-nav { margin-top: 2rem; padding: 1.2rem; border-top: 1px solid rgba(128,128,128,0.3); display: flex; flex-direction: column; gap: 0.8rem; }
+.series-link { font-size: 1rem; text-decoration: none; color: var(--link-color, #0096fa); }
+.series-link:hover { text-decoration: underline; }
+.series-prev-next { display: flex; gap: 1rem; flex-wrap: wrap; }
+.series-nav-btn { text-decoration: none; color: var(--text-color, inherit); background: rgba(128,128,128,0.15); padding: 0.4rem 0.9rem; border-radius: 6px; font-size: 0.9rem; transition: background 0.2s; max-width: 48%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.series-nav-btn:hover { background: rgba(128,128,128,0.3); }

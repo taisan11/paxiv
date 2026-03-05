@@ -14,10 +14,9 @@ export default createRoute(async (c) => {
         <p>合計{illustsdata.body.total}個のイラスト</p>
         <div class="list-base-grid">
             {illustsdata.body.illusts.map((illust) => (
-                <div key={illust.id} class="list-base-item">
+                <a href={`/artworks/${illust.id}`} key={illust.id} class="list-base-item">
                     <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-img" />
-                    <a href={`/artworks/${illust.id}`} target="_blank">{illust.title}</a>
-                </div>
+                </a>
             ))}
         </div>
         <div class="pagination">
