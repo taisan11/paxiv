@@ -1,5 +1,5 @@
 import { createRoute } from "honox/factory"
-import { seriesdetail, series_content } from "@/types/series"
+import { IllustSeriesDetail, IllustSeriesContent } from "@/types/series"
 import { url2imageURL, cache } from "@/util"
 import { fetch } from "@/fetch"
 
@@ -8,10 +8,10 @@ export default createRoute(async (c) => {
     const p = Number(c.req.query("p")) || 1
     const SeriDetailURL = `https://www.pixiv.net/touch/ajax/illust/series/${seriesid}`
     const SeriContentURL = `https://www.pixiv.net/touch/ajax/illust/series_content/${seriesid}?limit=10&last_order=${(p - 1) * 10}`
-    const seriDetailResp = cache(SeriDetailURL, await fetch(SeriDetailURL))
-    const seriDetailData = await seriDetailResp.json() as seriesdetail
-    const seriContentResp = cache(SeriContentURL, await fetch(SeriContentURL))
-    const seriContentData = await seriContentResp.json() as series_content
+    const seriDetailResp = await cache(SeriDetailURL, await fetch(SeriDetailURL))
+    const seriDetailData = await seriDetailResp.json() as IllustSeriesDetail
+    const seriContentResp = await cache(SeriContentURL, await fetch(SeriContentURL))
+    const seriContentData = await seriContentResp.json() as IllustSeriesContent
     return c.render(
         <>
             <h1>{seriDetailData.body.series.title}</h1>

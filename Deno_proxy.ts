@@ -13,7 +13,7 @@ app.use(logger());
 
 app.all("/proxy/:url{.+}", async (c) => {
     const url = c.req.url.replace("https://paxiv-proxy-11.deno.dev/proxy/","")
-    const cacheRequest = new Request(url, c.req.raw.clone());
+    const cacheRequest = new Request(url, c.req.raw.clone() as unknown as RequestInit);
     const cacheResponse = await cache.match(cacheRequest);
     if (cacheResponse) {
         return cacheResponse

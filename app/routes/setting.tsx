@@ -52,13 +52,13 @@ export const POST = createRoute(async (c) => {
     const userId = formData.get("userId")?.toString() || "";
 
     if (PHPSESSID) {
-        setCookie(c, "PHPSESSID", PHPSESSID, { path: "/", httpOnly: true });
+        setCookie(c, "PHPSESSID", PHPSESSID, { path: "/", httpOnly: true, secure: true, sameSite: "Strict" });
     }
     if (csrfToken) {
-        setCookie(c, "X-Csrf-Token", csrfToken, { path: "/", httpOnly: true });
+        setCookie(c, "X-Csrf-Token", csrfToken, { path: "/", httpOnly: true, secure: true, sameSite: "Strict" });
     }
     if (userId) {
-        setCookie(c, "userId", userId, { path: "/", httpOnly: true });
+        setCookie(c, "userId", userId, { path: "/", httpOnly: true, secure: true, sameSite: "Strict" });
     }
     return c.redirect("/setting");
 });

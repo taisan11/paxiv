@@ -1,4 +1,71 @@
-export interface novel_details {
+import { Meta, TitleCaptionTranslation } from "./common";
+
+/** 小説作品 (touch API) */
+export interface Novel {
+    ai_type: number;
+    author_details: {
+        user_account: string;
+        user_id: string;
+        user_name: string;
+    };
+    bookmark_count: number;
+    character_count: string;
+    comment: string;
+    comment_html: string;
+    comment_off_setting: number;
+    cover_image: {
+        urls: {
+            "128x128": string;
+            "240mw": string;
+            "480mw": string;
+            original: string;
+        };
+    };
+    genre: string;
+    id: string;
+    is_howto: boolean;
+    is_mypixiv: boolean;
+    is_original: boolean;
+    is_private: boolean;
+    language: string;
+    marker_count: number;
+    profile_image_url: string;
+    rating_count: number;
+    rating_view: number;
+    reading_time: number;
+    restrict: string;
+    reupload_timestamp: number;
+    scene: string;
+    series?: {
+        content_order: number;
+        first_novel_id: string;
+        id: string;
+        is_concluded: boolean;
+        is_notifying: boolean;
+        is_watched: boolean;
+        title: string;
+    };
+    tags: string[];
+    text_length: number;
+    title: string;
+    title_caption_translation: TitleCaptionTranslation;
+    upload_timestamp: number;
+    url: string;
+    url_big: string;
+    url_s: string;
+    use_word_count: boolean;
+    user_id: string;
+    user_name: string;
+    word_count: number;
+    work_type: string;
+    x_restrict: string;
+}
+
+/**
+ * @login ログインが必要
+ * https://www.pixiv.net/touch/ajax/novel/details?novel_id=:id
+ */
+export interface NovelDetails {
     error: boolean;
     message: string;
     body: {
@@ -58,14 +125,8 @@ export interface novel_details {
                 breadcrumbs: string[];
                 breadcrumbs_translations: null;
                 zengo_id_works: {
-                    prev: {
-                        id: string;
-                        title: string;
-                    };
-                    next: {
-                        id: string;
-                        title: string;
-                    };
+                    prev: { id: string; title: string };
+                    next: { id: string; title: string };
                 };
                 latest_novel_ids: string[];
                 zengo_novel_ids: string[];
@@ -88,10 +149,7 @@ export interface novel_details {
                     title: string;
                 };
             };
-            title_caption_translation: {
-                work_title: null;
-                work_caption: null;
-            };
+            title_caption_translation: { work_title: null; work_caption: null };
             cover_image: {
                 urls: {
                     "240mw": string;
@@ -133,13 +191,9 @@ export interface novel_details {
             user_account: string;
             user_name: string;
             user_premium: string;
-            profile_img: {
-                main: string;
-            };
+            profile_img: { main: string };
             profile_img_app_check_status: number;
-            profile_img_mask_rule_set: {
-                mask: number;
-            };
+            profile_img_mask_rule_set: { mask: number };
             external_site_works_status: {
                 booth: boolean;
                 sketch: boolean;
@@ -148,277 +202,18 @@ export interface novel_details {
             accept_request: boolean;
             commission: null;
         };
-        ads: {
-            ad_below_everything: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_below_everything_top: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_above_related_works: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_pager: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_overlay: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            ad_in_feed: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_grid: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_list: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_above_comment: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_below_novel_text: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-        };
-        promo: {
-            novel: {
-                general: {
-                    work_id: number;
-                    url: string;
-                    name: string;
-                    author: string;
-                    image_url: string;
-                    badge: string;
-                    max_read_start_at: string;
-                    description_as_text: string;
-                    brief_description: string;
-                    banner_r18_flag: boolean;
-                    score: number;
-                    date_badge_str: string;
-                }[];
-            };
-        };
     };
 }
 
-//https://www.pixiv.net/touch/ajax/user/novels?id=userid
+/** https://www.pixiv.net/touch/ajax/user/novels?id=:id */
 export interface UserNovels {
     error: boolean;
     message: string;
     body: {
-        novels: {
-            id: string;
-            title: string;
-            comment: string;
-            user_id: string;
-            scene: string;
-            restrict: string;
-            x_restrict: string;
-            is_original: boolean;
-            language: string;
-            character_count: string;
-            word_count: number;
-            comment_off_setting: number;
-            ai_type: number;
-            text_length: number;
-            user_name: string;
-            url: string;
-            genre: string;
-            marker_count: number;
-            bookmark_count: number;
-            rating_count: number;
-            rating_view: number;
-            title_caption_translation: {
-                work_title: null;
-                work_caption: null;
-            };
-            cover_image: {
-                urls: {
-                    "240mw": string;
-                    "480mw": string;
-                    "128x128": string;
-                    original: string;
-                };
-            };
-            is_mypixiv: boolean;
-            is_private: boolean;
-            is_howto: boolean;
-            use_word_count: boolean;
-            reading_time: number;
-            url_s: string;
-            url_big: string;
-            upload_timestamp: number;
-            reupload_timestamp: number;
-            profile_image_url: string;
-            work_type: string;
-            tags: string[];
-            comment_html: string;
-            author_details: {
-                user_id: string;
-                user_name: string;
-                user_account: string;
-            };
-        }[];
-        tags: {
-            tag: string;
-            tag_translation: string;
-        }[];
-        total: number;
         lastPage: number;
-        ads: {
-            ad_below_header: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            ad_pager: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_overlay: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            ad_below_everything: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            t_responsive_320_50: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            t_responsive_300_250: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-        };
-        meta: {
-            twitter_card: {
-                card: string;
-                site: string;
-                title: string;
-                image: string;
-                description: string;
-            };
-            ogp: {
-                title: string;
-                type: string;
-                image: string;
-                description: string;
-            };
-            title: string;
-            description: string;
-            description_header: string;
-            canonical: string;
-            alternate_languages: {
-                ja: string;
-                en: string;
-            };
-        };
+        meta: Meta;
+        novels: Novel[];
+        tags: { tag: string; tag_translation: string }[];
+        total: number;
     };
 }

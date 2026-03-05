@@ -1,5 +1,3 @@
-type getCurrentTheme = () => Theme;
-
 document.addEventListener('DOMContentLoaded', () => {
     const themaSelect = document.getElementById('thema') as HTMLSelectElement | null;
     const saveButton = document.getElementById('save-thema') as HTMLButtonElement | null;

@@ -1,3 +1,212 @@
+import { Meta, ExternalSiteWorksStatus } from "./common";
+
+/** https://www.pixiv.net/touch/ajax/user/details?id=:id */
+export interface User {
+    error: boolean;
+    message: string;
+    body: {
+        user_details: {
+            can_send_message: boolean;
+            commission: null;
+            cover_image: boolean;
+            external_site_works_status: ExternalSiteWorksStatus;
+            fanbox_details: {
+                cover_image_url: string;
+                creator_id: string;
+                description: string;
+                has_adult_content: string;
+                registration_datetime: string;
+                updated_datetime: string;
+                url: string;
+                user_id: string;
+            };
+            follows: number;
+            has_bookmarks: boolean;
+            has_collection_bookmarks: boolean;
+            has_collections: boolean;
+            has_follows: boolean;
+            has_illust_bookmarks: boolean;
+            has_illusts: boolean;
+            has_mangas: boolean;
+            has_mypixiv: boolean;
+            has_novel_bookmarks: boolean;
+            has_novels: boolean;
+            is_blocked: boolean;
+            is_blocking: boolean;
+            is_followed: boolean;
+            is_following: boolean;
+            is_mypixiv: boolean;
+            is_official: boolean;
+            location: string;
+            meta: Meta;
+            prefecture: string;
+            profile_img: { main: string; main_s: string };
+            region: string;
+            show_request_sent_tab: boolean;
+            show_request_tab: boolean;
+            social: { twitter: { url: string } };
+            user_account: string;
+            user_address: string;
+            user_address_re: string;
+            user_comment: string;
+            user_comment_html: string;
+            user_country: string;
+            user_id: string;
+            user_name: string;
+            user_premium: string;
+            user_sex: string;
+            user_sex_re: string;
+            user_sex_txt: string;
+            user_status: string;
+            user_webpage: string;
+            user_year_re: string;
+        };
+    };
+}
+
+/** https://www.pixiv.net/ajax/user/:id/profile/top */
+export interface UserTop {
+    error: boolean;
+    message: string;
+    body: {
+        illusts: {
+            [key: string]: {
+                aiType: number;
+                alt: string;
+                bookmarkData: null;
+                createDate: string;
+                description: string;
+                height: number;
+                id: string;
+                illustType: number;
+                isBookmarkable: boolean;
+                isMasked: boolean;
+                isUnlisted: boolean;
+                pageCount: number;
+                profileImageUrl: string;
+                restrict: number;
+                sl: number;
+                tags: string[];
+                title: string;
+                titleCaptionTranslation: { workCaption: null; workTitle: null };
+                updateDate: string;
+                url: string;
+                userId: string;
+                userName: string;
+                visibilityScope: number;
+                width: number;
+                xRestrict: number;
+            };
+        };
+        manga: {
+            [key: string]: {
+                aiType: number;
+                alt: string;
+                bookmarkData: null;
+                createDate: string;
+                description: string;
+                height: number;
+                id: string;
+                illustType: number;
+                isBookmarkable: boolean;
+                isMasked: boolean;
+                isUnlisted: boolean;
+                pageCount: number;
+                profileImageUrl: string;
+                restrict: number;
+                sl: number;
+                tags: string[];
+                title: string;
+                titleCaptionTranslation: { workCaption: null; workTitle: null };
+                updateDate: string;
+                url: string;
+                userId: string;
+                userName: string;
+                visibilityScope: number;
+                width: number;
+                xRestrict: number;
+            };
+        };
+        novels: unknown[];
+        extraData: {
+            meta: {
+                alternateLanguages: { en: string; ja: string };
+                canonical: string;
+                description: string;
+                descriptionHeader: string;
+                ogp: { description: string; image: string; title: string; type: string };
+                title: string;
+                twitter: { card: string; description: string; image: string; title: string };
+            };
+        };
+    };
+}
+
+/** https://www.pixiv.net/touch/ajax/user/illusts?id=:id&type=illust */
+export interface UserIllusts {
+    error: boolean;
+    message: string;
+    body: {
+        illusts: {
+            ai_type: number;
+            alt: string;
+            author_details: {
+                user_account: string;
+                user_id: string;
+                user_name: string;
+            };
+            book_style: string;
+            comment: string | null;
+            comment_off_setting: number;
+            height: string;
+            id: string;
+            is_howto: boolean;
+            is_mypixiv: boolean;
+            is_original: boolean;
+            is_private: boolean;
+            location_mask: boolean;
+            page_count: string;
+            rating_count: string;
+            rating_view: string;
+            restrict: string;
+            sl: number;
+            tags: string[];
+            title: string;
+            title_caption_translation: { work_caption: null; work_title: null };
+            type: string;
+            upload_timestamp: number;
+            url: string;
+            url_big: string | null;
+            url_placeholder: string | null;
+            url_s: string;
+            url_sm: string;
+            url_ss: string | null;
+            url_w: string;
+            user_id: string;
+            width: string;
+            x_restrict: string;
+        }[];
+        lastPage: number;
+        meta: Meta;
+        should_show_sensitive_notice: boolean;
+        tags: { tag: string; tag_translation: string }[];
+        total: number;
+    };
+}
+
+/** https://www.pixiv.net/touch/ajax/illust/user_illusts?user_id=:id */
+export interface UserIllustsUnder {
+    error: boolean;
+    message: string;
+    body: {
+        user_illust_ids: string[];
+    };
+}
+
+/**
+ * @login ログインが必要
+ * https://www.pixiv.net/touch/ajax/user/home?id=:id
+ */
 export interface UserHome {
     error: boolean;
     message: string;
@@ -157,95 +366,7 @@ export interface UserHome {
             };
         }[];
         upload_complete_work: null;
-        ads: {
-            ad_below_header: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            ad_pager: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_overlay: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            ad_below_everything: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            t_responsive_320_50: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            t_responsive_300_250: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-        };
         should_show_sensitive_notice: boolean;
-        meta: {
-            twitter_card: {
-                card: string;
-                site: string;
-                title: string;
-                image: string;
-                description: string;
-            };
-            ogp: {
-                title: string;
-                type: string;
-                image: string;
-                description: string;
-            };
-            title: string;
-            description: string;
-            description_header: string;
-            canonical: string;
-            alternate_languages: {
-                ja: string;
-                en: string;
-            };
-        };
+        meta: Meta;
     };
 }

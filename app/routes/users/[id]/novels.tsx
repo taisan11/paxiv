@@ -1,7 +1,7 @@
 import {createRoute} from "honox/factory"
 import {UserNovels} from "@/types/novel"
 import {UserSeries} from "@/types/series"
-import { url2imageURL,host,cache } from "@/util"
+import { url2imageURL, cache } from "@/util"
 import {fetch} from "@/fetch"
 
 export default createRoute(async (c) => {
@@ -9,8 +9,8 @@ export default createRoute(async (c) => {
     const p = Number(c.req.query("p")) || 1
     const NovAPIurl = `https://www.pixiv.net/touch/ajax/user/novels?id=${userId}&p=${p}`
     const SeriesAPIurl = `https://www.pixiv.net/touch/ajax/user/series?id=${userId}&p=${p}`
-    const novelsresp = cache(NovAPIurl,await fetch(NovAPIurl))
-    const seriesresp = cache(SeriesAPIurl,await fetch(SeriesAPIurl))
+    const novelsresp = await cache(NovAPIurl,await fetch(NovAPIurl))
+    const seriesresp = await cache(SeriesAPIurl,await fetch(SeriesAPIurl))
     const novelsdata = await novelsresp.json() as UserNovels
     const seriesdata = await seriesresp.json() as UserSeries
     return c.render(<>
@@ -26,7 +26,7 @@ export default createRoute(async (c) => {
         <div class="list-base-grid">
         {novelsdata.body.novels.map((novel) => (
             <div key={novel.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-image"/>
+                <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-img"/>
                 <a href={`/novel/${novel.id}`} target="_blank">{novel.title}</a>
             </div>
         ))}

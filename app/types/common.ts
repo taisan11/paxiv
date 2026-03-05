@@ -55,14 +55,14 @@ export interface PixivUser {
  * タグ情報
  */
 export interface Tag {
-    /**タグ名 */
+    /** タグ名 */
     tag: string;
     /** 翻訳済みのタグ名 */
-    tag_translation: null|string;
+    tag_translation: null | string;
 }
 
 /**
- * シリーズ情報
+ * シリーズ情報 (小説用)
  */
 export interface Series {
     /** シリーズ ID */
@@ -72,6 +72,7 @@ export interface Series {
     title: string
 }
 
+/** touch API のメタ情報 */
 export interface Meta {
     twitter_card: {
         card: string;
@@ -96,15 +97,22 @@ export interface Meta {
     };
 }
 
-export interface external_site_works_status {
+export interface ExternalSiteWorksStatus {
     booth: boolean;
     sketch: boolean;
     vroidHub: boolean;
 }
 
-export interface title_caption_translation {
-    work_title: null|string;
-    work_caption: null|string;
+export interface TitleCaptionTranslation {
+    work_title: null | string;
+    work_caption: null | string;
+}
+
+/** 作者情報 */
+export interface AuthorDetails {
+    user_id: string;
+    user_name: string;
+    user_account: string;
 }
 
 export interface BaseType {

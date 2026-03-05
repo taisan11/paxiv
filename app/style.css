@@ -404,12 +404,8 @@ header nav a:focus {
         font-size: 20px;
     }
     
-    .search-grid {
+    .list-base-grid {
         grid-template-columns: 1fr 1fr;
-    }
-    
-    .search-img {
-        max-height: 120px;
     }
 }
 

@@ -7,7 +7,7 @@ export default createRoute(async (c) => {
     const userId = c.req.param('id')
     const p = Number(c.req.query("p")) || 1
     const iluAPIurl = `https://www.pixiv.net/touch/ajax/user/illusts?id=${userId}&p=${p}&type=illust`
-    const illustsresp = cache(iluAPIurl,await fetch(iluAPIurl))
+    const illustsresp = await cache(iluAPIurl,await fetch(iluAPIurl))
     const illustsdata = await illustsresp.json() as UserIllusts
     return c.render(<>
         <h1>{illustsdata.body.meta.title}</h1>
@@ -15,7 +15,7 @@ export default createRoute(async (c) => {
         <div class="list-base-grid">
             {illustsdata.body.illusts.map((illust) => (
                 <div key={illust.id} class="list-base-item">
-                    <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-image" />
+                    <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-img" />
                     <a href={`/artworks/${illust.id}`} target="_blank">{illust.title}</a>
                 </div>
             ))}

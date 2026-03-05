@@ -1,228 +1,171 @@
-//https://www.pixiv.net/touch/ajax/illust/series/:id
-export interface seriesdetail {
+/** https://www.pixiv.net/touch/ajax/illust/series/:id */
+export interface IllustSeriesDetail {
     error: boolean;
+    message: string;
     body: {
         series: {
-            id: string;
-            title: string;
             caption: string;
+            coverImage: string;
+            coverImageSl: number;
+            display_series_content_count: number;
+            firstWorkId: string;
+            id: string;
             isSetCover: boolean;
-            coverImage: boolean;
+            share_text: string;
+            title: string;
+            total: string;
             userId: string;
             workCount: string;
-            share_text: string;
-            firstWorkId: string;
-            display_series_content_count: number;
-            total: string;
-            coverImageSl: string | null;
         };
-        isWatched: boolean;
         isNotifying: boolean;
+        isWatched: boolean;
     };
-    message: string;
 }
-// limit=最大数,last_order=11個からとかする
-//https://www.pixiv.net/touch/ajax/illust/series_content/:id?limit=10&last_order=0
-export interface series_content {
+
+/** https://www.pixiv.net/touch/ajax/illust/series_content/:id?limit=10&last_order=0 */
+export interface IllustSeriesContent {
     error: boolean;
+    message: string;
     body: {
         series_contents: {
-            url: string;
-            tags: string[];
-            visible: boolean;
-            title_caption_translation: {
-                work_title: null;
-                work_caption: null;
-            };
-            is_mypixiv: boolean;
-            is_private: boolean;
-            is_howto: boolean;
-            is_original: boolean;
-            alt: string;
-            url_s: string;
-            url_sm: string;
-            url_w: string;
-            url_ss: null;
-            url_big: null;
-            url_placeholder: null;
-            upload_timestamp: number;
-            series: {
-                id: string;
-                user_id: string;
-                title: string;
-                caption: string;
-                total: string;
-                content_order: string;
-                url: null;
-                update_date: null;
-                first_illust_id: null;
-                latest_illust_id: null;
-                latest_work: null;
-                user: null;
-                userId: string;
-                coverImage: null;
-                workCount: string;
-                display_series_content_count: string;
-                firstWorkId: null;
-                is_watched: boolean;
-                is_notifying: boolean;
-            };
-            location_mask: boolean;
-            id: string;
-            user_id: string;
-            title: string;
-            width: string;
-            height: string;
-            restrict: string;
-            x_restrict: string;
-            type: string;
-            sl: number;
-            book_style: string;
-            page_count: string;
-            comment_off_setting: number;
             ai_type: number;
-            comment: string;
+            alt: string;
             author_details: {
+                user_account: string;
                 user_id: string;
                 user_name: string;
-                user_account: string;
             };
+            book_style: string;
+            comment: string;
+            comment_off_setting: number;
+            height: string;
+            id: string;
+            is_howto: boolean;
+            is_mypixiv: boolean;
+            is_original: boolean;
+            is_private: boolean;
+            location_mask: boolean;
+            page_count: string;
+            restrict: string;
+            series: {
+                caption: string;
+                content_order: string | null;
+                coverImage: string | null;
+                display_series_content_count: string;
+                first_illust_id: string | null;
+                firstWorkId: string | null;
+                id: string;
+                is_notifying: boolean;
+                is_watched: boolean;
+                latest_illust_id: string | null;
+                latest_work: null;
+                title: string;
+                total: string;
+                update_date: string | null;
+                url: string | null;
+                user: null;
+                user_id: string;
+                userId: string;
+                workCount: string;
+            };
+            sl: number;
+            tags: string[];
+            title: string;
+            title_caption_translation: { work_caption: null; work_title: null };
+            type: string;
+            upload_timestamp: number;
+            url: string;
+            url_big: string | null;
+            url_placeholder: string | null;
+            url_s: string;
+            url_sm: string;
+            url_ss: string | null;
+            url_w: string;
+            user_id: string;
+            visible: boolean;
+            width: string;
+            x_restrict: string;
         }[];
-        ads: {
-            ad_below_header: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            ad_below_everything: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: string;
-                geta: boolean;
-            };
-            ad_pager: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_overlay: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: string;
-                width: number;
-                geta: boolean;
-            };
-            logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-            ad_logo: {
-                url: string;
-                zone: string;
-                ng: string;
-                height: number;
-                width: number;
-                geta: boolean;
-            };
-        };
     };
-    message: string;
 }
-//https://www.pixiv.net/touch/ajax/user/series?id=userid
+
+/** https://www.pixiv.net/touch/ajax/user/series?id=:id */
 export interface UserSeries {
     error: boolean;
     message: string;
     body: {
         series: {
             manga: {
-                id: string;
-                user_id: string;
-                title: string;
                 caption: string;
-                total: string;
-                content_order: null;
-                url: string;
-                update_date: string;
+                content_order: string | null;
+                coverImage: string;
+                display_series_content_count: string;
                 first_illust_id: string;
-                latest_illust_id: null;
+                firstWorkId: string;
+                id: string;
+                is_notifying: boolean;
+                is_watched: boolean;
+                latest_illust_id: string | null;
                 latest_work: null;
+                title: string;
+                total: string;
+                update_date: string;
+                url: string;
                 user: {
-                    user_id: string;
-                    user_status: string;
+                    profile_img: { main: string; main_s: string };
+                    profile_img_app_check_status: number;
+                    profile_img_mask_rule_set: { mask: number };
                     user_account: string;
+                    user_id: string;
                     user_name: string;
                     user_premium: string;
-                    profile_img: {
-                        main: string;
-                        main_s: string;
-                    };
-                    profile_img_app_check_status: number;
-                    profile_img_mask_rule_set: {
-                        mask: number;
-                    };
+                    user_status: string;
                 };
+                user_id: string;
                 userId: string;
-                coverImage: string;
                 workCount: string;
-                display_series_content_count: string;
-                firstWorkId: string;
-                is_watched: boolean;
-                is_notifying: boolean;
             }[];
             novels: {
-                id: string;
-                title: string;
-                titleCaptionTranslation: null;
+                aiType: number;
+                bookmarkCount: number;
+                caption: string;
                 cover: {
                     urls: {
-                        "240mw": string;
-                        "480mw": string;
                         "1200x1200": string;
                         "128x128": string;
+                        "240mw": string;
+                        "480mw": string;
                         original: string;
                     };
                 };
-                tags: string[];
-                xRestrict: number;
-                isOriginal: boolean;
-                genre: string;
                 createDateTime: string;
+                episodeCount: number;
+                genre: string;
+                id: string;
+                isConcluded: boolean;
+                isNotifying: boolean;
+                isOneshot: boolean;
+                isOriginal: boolean;
+                isWatched: boolean;
+                latestEpisodeId: string;
+                latestPublishDateTime: string;
+                profileImageUrl: string;
+                publishedEpisodeCount: number;
+                publishedReadingTime: number;
+                publishedTextLength: number;
+                publishedWordCount: number;
+                readingTime: number;
+                restrict: number;
+                tags: string[];
+                textLength: number;
+                title: string;
+                titleCaptionTranslation: null;
                 updateDateTime: string;
                 userId: string;
                 userName: string;
-                profileImageUrl: string;
-                bookmarkCount: number;
-                isOneshot: boolean;
-                caption: string;
-                isConcluded: boolean;
-                episodeCount: number;
-                publishedEpisodeCount: number;
-                latestPublishDateTime: string;
-                latestEpisodeId: string;
-                isWatched: boolean;
-                isNotifying: boolean;
-                restrict: number;
-                textLength: number;
-                wordCount: number;
-                readingTime: number;
-                publishedTextLength: number;
-                publishedWordCount: number;
-                publishedReadingTime: number;
                 useWordCount: boolean;
-                aiType: number;
+                wordCount: number;
+                xRestrict: number;
             }[];
         };
     };

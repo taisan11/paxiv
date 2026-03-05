@@ -1,8 +1,10 @@
 import {createRoute} from "honox/factory"
-import type {searchillust} from "@/types/search"
+import type {SearchIllust} from "@/types/search"
 import {fetch} from "@/fetch"
 import { url2imageURL } from "@/util"
 import { SearchOptions } from "@/components/SearchOptions"
+import { SearchTabBar } from "@/components/SearchTabBar"
+import { Pagination } from "@/components/Pagination"
 
 //pでページを設定
 export default createRoute(async(c)=>{
@@ -31,29 +33,21 @@ export default createRoute(async(c)=>{
         type: type
     })
     
-    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/search/illusts?${params.toString()}`)).json() as searchillust
+    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/search/illusts?${params.toString()}`)).json() as SearchIllust
     sarch.body.illusts = sarch.body.illusts.filter((v) => v.id)
-    sarch.body.illusts = sarch.body.illusts.sort((a, b) => parseInt(b.id) - parseInt(a.id))
+    sarch.body.illusts = sarch.body.illusts.sort((a, b) => parseInt(b.id ?? "0") - parseInt(a.id ?? "0"))
     return c.render(<>
         <h1>{q}の検索結果</h1>
         <SearchOptions formAction="/search/i" showType={true} currentQuery={q} />
-        <nav className="search-tab-bar">
-            <a href={`/search?q=${q}`}>トップ</a>
-            <a href={`/search/i?q=${q}`}>イラスト</a>
-            <a href={`/search/m?q=${q}`}>マンガ</a>
-            <a href={`/search/n?q=${q}`}>ノベル</a>
-        </nav>
+        <SearchTabBar q={q} />
         <div class="list-base-grid">
             {sarch.body.illusts.map((v) => (
             <div key={v.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(v.url)} alt={v.title} class="list-base-img"/>
+                <img loading="lazy" src={url2imageURL(v.url ?? "")} alt={v.title} class="list-base-img"/>
                 <a href={`/artworks/${v.id}`}>{v.title}を見る</a>
             </div>
             ))}
         </div>
-        <div class="pagination">
-            {p != 1 && <a href={`?${new URLSearchParams({...Object.fromEntries(new URLSearchParams(c.req.url.split('?')[1] || '')), p: (p - 1).toString()}).toString()}`}>前に戻る</a>}
-            {p != sarch.body.lastPage && <a href={`?${new URLSearchParams({...Object.fromEntries(new URLSearchParams(c.req.url.split('?')[1] || '')), p: (p + 1).toString()}).toString()}`}>次に進む</a>}
-        </div>
+        <Pagination currentPage={p} lastPage={sarch.body.lastPage} currentUrl={c.req.url} />
     </>)
 })

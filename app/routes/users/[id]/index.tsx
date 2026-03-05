@@ -1,24 +1,27 @@
 import {createRoute} from "honox/factory"
 import {User} from "@/types"
-import { url2imageURL,host,cache } from "@/util"
+import { url2imageURL, cache, sanitizeHtml } from "@/util"
 import {fetch} from "@/fetch"
 import { UserHome } from "@/types/user"
 
 export default createRoute(async (c) => {
     const userId = c.req.param('id')
-    // const topURL = `https://www.pixiv.net/ajax/user/${userId}/profile/top`
     const userURL = `https://www.pixiv.net/touch/ajax/user/details?id=${userId}`
     const homeURL = `https://www.pixiv.net/touch/ajax/user/home?id=${userId}`
-    // const topresp = fetch(topURL)
     const userresp = fetch(userURL)
     const homeresp = fetch(homeURL)
     const [user,home] = await Promise.all([userresp, homeresp])
-    // const topdata = await cache(topURL,top).json() as UserTop
-    const userdata = await cache(userURL,user).json() as User
-    const homedata = await cache(homeURL,home).json() as UserHome
+    const userdata = await (await cache(userURL,user)).json() as User
+    const homedata = await (await cache(homeURL,home)).json() as UserHome
+    if (userdata.error) {
+        return c.render(<>
+            <h1>エラー</h1>
+            <p>{userdata.message || "ユーザー情報の取得に失敗しました。"}</p>
+        </>)
+    }
     return c.render(<>
         <h1>{userdata.body.user_details.user_name}</h1>
-        <div dangerouslySetInnerHTML={{__html:userdata.body.user_details.user_comment_html}}></div>
+        <div dangerouslySetInnerHTML={{__html:sanitizeHtml(userdata.body.user_details.user_comment_html)}}></div>
         <img loading="lazy" src={url2imageURL(userdata.body.user_details.profile_img.main)} alt="プロフィール画像" />
         <div style={{ display: 'flex', flexDirection: 'row' }}>
             {userdata.body.user_details.social.twitter.url && <a href={userdata.body.user_details.social.twitter.url} target="_blank">Twitter</a>}
@@ -28,7 +31,7 @@ export default createRoute(async (c) => {
         <div class="list-base-grid">
         {Object.values(homedata.body.work_sets.all.data).map((illust) => (
             <div key={illust.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-image"/>
+                <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-img"/>
                 <a href={`/artworks/${illust.id}`}>{illust.title}</a>
             </div>
         ))}
@@ -39,7 +42,7 @@ export default createRoute(async (c) => {
         <div class="list-base-grid">
             {Object.values(homedata.body.work_sets.novels.data).map((novel) => (
                 <div key={novel.id} class="list-base-item">
-                    <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-image" />
+                    <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-img" />
                     <a href={`/novel/${novel.id}`}>{novel.title}</a>
                 </div>
             ))}
