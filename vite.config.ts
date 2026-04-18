@@ -24,7 +24,20 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       // Macros(),
-      honox({ devServer: { adapter: isDev ? cloudflare() : undefined },client:{input:["/app/style.css","/app/setting.ts","/app/dark.ts","/app/history.ts","/app/search-options.ts","/app/novel-settings.ts","/app/manga-viewer.ts"]} }),
+      honox({
+        devServer: { adapter: isDev ? cloudflare() : undefined },
+        client: {
+          input: [
+            "/app/style.css",
+            "/app/script/activity.ts",
+            "/app/script/dark.ts",
+            "/app/script/manga-viewer.ts",
+            "/app/script/novel-settings.ts",
+            "/app/script/search-options.ts",
+            "/app/script/setting.ts"
+          ]
+        }
+      }),
       build({})
     ]
   };

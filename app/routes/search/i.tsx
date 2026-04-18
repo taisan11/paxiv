@@ -1,6 +1,6 @@
 import {createRoute} from "honox/factory"
-import type {SearchIllust} from "@/types/search"
-import {fetch} from "@/fetch"
+import type {AjaxSearchArtworksResponse} from "@/types/ajax"
+import { fetchPixivJson } from "@/pixiv-api"
 import { url2imageURL } from "@/util"
 import { SearchOptions } from "@/components/SearchOptions"
 import { SearchTabBar } from "@/components/SearchTabBar"
@@ -22,31 +22,36 @@ export default createRoute(async(c)=>{
         <SearchOptions formAction="/search/i" showType={true} />
     </>)
     
-    // URLパラメータ構築
     const params = new URLSearchParams({
-        include_meta: "1",
+        order: "date_d",
+        mode: type === "illust_and_ugoira" ? "all" : type,
         p: p.toString(),
-        word: q,
         ai_type: aiType.toString(),
         csw: csw.toString(),
         s_mode: sMode,
-        type: type
+        ratio: ""
     })
-    
-    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/search/illusts?${params.toString()}`)).json() as SearchIllust
-    sarch.body.illusts = sarch.body.illusts.filter((v) => v.id)
-    sarch.body.illusts = sarch.body.illusts.sort((a, b) => parseInt(b.id ?? "0") - parseInt(a.id ?? "0"))
+
+    const sarch = await fetchPixivJson<AjaxSearchArtworksResponse>(
+        c,
+        `https://www.pixiv.net/ajax/search/artworks/${encodeURIComponent(q)}?${params.toString()}`
+    )
+
+    const illusts = (sarch.body?.illustManga?.data ?? [])
+        .filter((v) => v?.id)
+        .sort((a, b) => parseInt(b.id) - parseInt(a.id))
+
     return c.render(<>
         <h1>{q}の検索結果</h1>
         <SearchOptions formAction="/search/i" showType={true} currentQuery={q} />
         <SearchTabBar q={q} />
         <div class="list-base-grid">
-            {sarch.body.illusts.map((v) => (
+            {illusts.map((v) => (
             <a href={`/artworks/${v.id}`} key={v.id} class="list-base-item">
                 <img loading="lazy" src={url2imageURL(v.url ?? "")} alt={v.title} class="list-base-img"/>
             </a>
             ))}
         </div>
-        <Pagination currentPage={p} lastPage={sarch.body.lastPage} currentUrl={c.req.url} />
+        <Pagination currentPage={p} lastPage={sarch.body?.illustManga?.lastPage ?? 1} currentUrl={c.req.url} />
     </>)
 })

@@ -1,6 +1,6 @@
 import {createRoute} from "honox/factory"
-import type {SearchNovel} from "@/types/search"
-import {fetch} from "@/fetch"
+import type {AjaxSearchNovelsResponse} from "@/types/ajax"
+import { fetchPixivJson } from "@/pixiv-api"
 import { url2imageURL } from "@/util"
 import { SearchOptions } from "@/components/SearchOptions"
 import { SearchTabBar } from "@/components/SearchTabBar"
@@ -23,11 +23,10 @@ export default createRoute(async(c)=>{
         <SearchOptions formAction="/search/n" showSeriesGroup={true} showWorkLang={true} />
     </>)
     
-    // URLパラメータ構築
     const params = new URLSearchParams({
-        include_meta: "1",
+        order: "date_d",
+        mode: "all",
         p: p.toString(),
-        word: q,
         ai_type: aiType.toString(),
         csw: csw.toString(),
         gs: gs.toString(),
@@ -35,20 +34,31 @@ export default createRoute(async(c)=>{
         work_lang: workLang
     })
     
-    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/search/novels?${params.toString()}`)).json() as SearchNovel
-    sarch.body.novels = sarch.body.novels.filter((v) => v.id)
-    sarch.body.novels = sarch.body.novels.sort((a, b) => parseInt(b.id ?? "0") - parseInt(a.id ?? "0"))
+    const sarch = await fetchPixivJson<AjaxSearchNovelsResponse>(
+        c,
+        `https://www.pixiv.net/ajax/search/novels/${encodeURIComponent(q)}?${params.toString()}`
+    )
+
+    const novels = (sarch.body?.novel?.data ?? [])
+        .filter((v) => v?.id)
+        .sort((a, b) => parseInt(b.id) - parseInt(a.id))
+
     return c.render(<>
         <h1>{q}の検索結果</h1>
         <SearchOptions formAction="/search/n" showSeriesGroup={true} showWorkLang={true} currentQuery={q} />
         <SearchTabBar q={q} />
         <div class="list-base-grid">
-            {sarch.body.novels.map((novel) => (
+            {novels.map((novel) => (
                 <a href={`/novel/${novel.id}`} class="list-base-item" key={novel.id}>
-                    <img loading="lazy" src={url2imageURL(novel.url ?? "")} alt={novel.title} class="list-base-img"/>
+                    <img
+                        loading="lazy"
+                        src={url2imageURL(novel.cover?.urls["480mw"] || novel.cover?.urls.original || novel.url || "")}
+                        alt={novel.title}
+                        class="list-base-img"
+                    />
                 </a>
             ))}
         </div>
-        <Pagination currentPage={p} lastPage={sarch.body.lastPage} currentUrl={c.req.url} />
+        <Pagination currentPage={p} lastPage={sarch.body?.novel?.lastPage ?? 1} currentUrl={c.req.url} />
     </>)
 })

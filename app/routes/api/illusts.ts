@@ -1,18 +1,18 @@
 import {createHono} from "honox/factory"
-import {UserIllustsUnder} from "@/types"
-import { cache } from "@/util"
-import { fetch } from "@/fetch"
+import {AjaxUserProfileAllResponse} from "@/types/ajax"
+import { normalizePixivIdList } from "@/util"
+import { fetchPixivJson } from "@/pixiv-api"
 
 const app = createHono()
 
 app.get("/Under/:id", async (c) => {
-    const userIllustsUrl = `https://www.pixiv.net/touch/ajax/illust/user_illusts?user_id=${c.req.param("id")}`
-    const userIllustsResp = await cache(userIllustsUrl, await fetch(userIllustsUrl))
-    const userIllustsData = await userIllustsResp.json() as UserIllustsUnder
+    const userIllustsUrl = `https://www.pixiv.net/ajax/user/${c.req.param("id")}/profile/all?sensitiveFilterMode=userSetting`
+    const userIllustsData = await fetchPixivJson<AjaxUserProfileAllResponse>(c, userIllustsUrl)
     if (userIllustsData.error) {
         return c.json({ error: true, message: userIllustsData.message })
     }
-    return c.json(userIllustsData.body.user_illust_ids)
+    const ids = normalizePixivIdList(userIllustsData.body.illusts)
+    return c.json(ids)
 })
 
 export default app

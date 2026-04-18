@@ -1,38 +1,71 @@
 import {createRoute} from "honox/factory"
-import {UserNovels} from "@/types/novel"
-import {UserSeries} from "@/types/series"
-import { url2imageURL, cache } from "@/util"
-import {fetch} from "@/fetch"
+import {AjaxUserProfileAllResponse, AjaxUserNovelsByIdsResponse} from "@/types/ajax"
+import { url2imageURL, normalizePixivIdList, paginateItems } from "@/util"
+import { fetchPixivJson } from "@/pixiv-api"
+import { Pagination } from "@/components/Pagination"
 
 export default createRoute(async (c) => {
     const userId = c.req.param('id')
     const p = Number(c.req.query("p")) || 1
-    const NovAPIurl = `https://www.pixiv.net/touch/ajax/user/novels?id=${userId}&p=${p}`
-    const SeriesAPIurl = `https://www.pixiv.net/touch/ajax/user/series?id=${userId}&p=${p}`
-    const novelsresp = await cache(NovAPIurl,await fetch(NovAPIurl))
-    const seriesresp = await cache(SeriesAPIurl,await fetch(SeriesAPIurl))
-    const novelsdata = await novelsresp.json() as UserNovels
-    const seriesdata = await seriesresp.json() as UserSeries
+    const profileAllUrl = `https://www.pixiv.net/ajax/user/${userId}/profile/all?sensitiveFilterMode=userSetting`
+    const profileAllData = await fetchPixivJson<AjaxUserProfileAllResponse>(c, profileAllUrl)
+
+    if (profileAllData.error) {
+        return c.render(<>
+            <h1>エラー</h1>
+            <p>{profileAllData.message || "小説一覧の取得に失敗しました。"}</p>
+        </>)
+    }
+
+    const novelIds = normalizePixivIdList(profileAllData.body.novels)
+    const perPage = 20
+    const { page, lastPage, pagedItems: currentIds } = paginateItems(novelIds, p, perPage)
+
+    let novels: NonNullable<AjaxUserNovelsByIdsResponse["body"][string]>[] = []
+    if (currentIds.length > 0) {
+        const params = new URLSearchParams()
+        currentIds.forEach((id) => params.append("ids[]", id))
+        const NovAPIurl = `https://www.pixiv.net/ajax/user/${userId}/novels?${params.toString()}`
+        const novelsdata = await fetchPixivJson<AjaxUserNovelsByIdsResponse>(c, NovAPIurl)
+        if (novelsdata.error) {
+            return c.render(<>
+                <h1>エラー</h1>
+                <p>{novelsdata.message || "小説情報の取得に失敗しました。"}</p>
+            </>)
+        }
+        novels = currentIds
+            .map((id) => novelsdata.body[id] ?? null)
+            .filter((v): v is NonNullable<typeof v> => v !== null)
+    }
+
     return c.render(<>
-        <h1>{novelsdata.body.meta.title}</h1>
+        <h1>小説一覧</h1>
         <h2>シリーズ</h2>
-        {seriesdata.body.series.novels.map((series) => (
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <img loading="lazy" src={url2imageURL(series.cover.urls["128x128"])} alt={series.title} />
-                <a href={`/series/${series.id}`} target="_blank">{series.title}</a>
+        {profileAllData.body.novelSeries.length === 0 ? (
+            <p class="empty-state">公開されているシリーズがありません。</p>
+        ) : (
+            <div class="series-list">
+                {profileAllData.body.novelSeries.map((series) => (
+                    <a key={series.id} class="series-item" href={`https://www.pixiv.net/novel/series/${series.id}`} target="_blank" rel="noopener noreferrer">
+                        <img loading="lazy" src={url2imageURL(series.cover.urls["128x128"])} alt={series.title} />
+                        <span>{series.title}</span>
+                    </a>
+                ))}
             </div>
-        ))}
-        <p>合計{novelsdata.body.total}個の小説</p>
-        <div class="list-base-grid">
-        {novelsdata.body.novels.map((novel) => (
-            <a href={`/novel/${novel.id}`} key={novel.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-img"/>
-            </a>
-        ))}
-        </div>
-        <div class="pagination">
-        {p != 1 && <a href={`?p=${p - 1}`}>前に戻る</a>}{p != novelsdata.body.lastPage && <a href={`?p=${p + 1}`}>次に進む</a>}
-        </div>
+        )}
+        <p>合計{novelIds.length}個の小説</p>
+        {novels.length === 0 ? (
+            <p class="empty-state">表示できる小説がありません。</p>
+        ) : (
+            <div class="list-base-grid">
+            {novels.map((novel) => (
+                <a href={`/novel/${novel.id}`} key={novel.id} class="list-base-item">
+                    <img loading="lazy" src={url2imageURL(novel.url || novel.cover?.urls["480mw"] || novel.cover?.urls.original || "")} alt={novel.title} class="list-base-img"/>
+                </a>
+            ))}
+            </div>
+        )}
+        <Pagination currentPage={page} lastPage={lastPage} currentUrl={c.req.url} />
     </>
     )
 })

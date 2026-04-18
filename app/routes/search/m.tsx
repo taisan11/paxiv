@@ -1,6 +1,6 @@
 import {createRoute} from "honox/factory"
-import type {SearchManga} from "@/types/search"
-import {fetch} from "@/fetch"
+import type {AjaxSearchMangaResponse} from "@/types/ajax"
+import { fetchPixivJson } from "@/pixiv-api"
 import { url2imageURL } from "@/util"
 import { SearchOptions } from "@/components/SearchOptions"
 import { SearchTabBar } from "@/components/SearchTabBar"
@@ -21,23 +21,27 @@ export default createRoute(async(c)=>{
         <SearchOptions formAction="/search/m" />
     </>)
     
-    // URLパラメータ構築
     const params = new URLSearchParams({
-        include_meta: "1",
+        order: "date_d",
+        mode: "all",
         p: p.toString(),
-        word: q,
         ai_type: aiType.toString(),
         csw: csw.toString(),
         s_mode: sMode,
-        type: "manga"
+        ratio: "",
+        work_lang: "ja"
     })
     
-    const sarch = await (
-        await fetch(
-            `https://www.pixiv.net/touch/ajax/search/illusts?${params.toString()}`
-        )
-    ).json() as SearchManga
-    if (!sarch.body.illusts) {
+    const sarch = await fetchPixivJson<AjaxSearchMangaResponse>(
+        c,
+        `https://www.pixiv.net/ajax/search/manga/${encodeURIComponent(q)}?${params.toString()}`
+    )
+
+    const mangas = (sarch.body?.manga?.data ?? [])
+        .filter((v) => v?.id)
+        .sort((a, b) => parseInt(b.id) - parseInt(a.id))
+
+    if (mangas.length === 0) {
         return c.render(<>
             <h1>{q}の検索結果</h1>
             <SearchOptions formAction="/search/m" currentQuery={q} />
@@ -45,19 +49,18 @@ export default createRoute(async(c)=>{
             <p>該当するマンガが見つからなかったか、リクエストでエラーが発生しました。</p>
         </>)
     }
-    sarch.body.illusts = sarch.body.illusts.filter((v) => v.id)
-    sarch.body.illusts = sarch.body.illusts.sort((a, b) => parseInt(b.id ?? "0") - parseInt(a.id ?? "0"))
+
     return c.render(<>
         <h1>{q}の検索結果</h1>
         <SearchOptions formAction="/search/m" currentQuery={q} />
         <SearchTabBar q={q} />
         <div class="list-base-grid">
-            {sarch.body.illusts.map((v) => (
+            {mangas.map((v) => (
             <a href={`/artworks/${v.id}`} key={v.id} class="list-base-item">
                 <img loading="lazy" src={url2imageURL(v.url ?? "")} alt={v.title} class="list-base-img"/>
             </a>
             ))}
         </div>
-        <Pagination currentPage={p} lastPage={sarch.body.lastPage} currentUrl={c.req.url} />
+        <Pagination currentPage={p} lastPage={sarch.body?.manga?.lastPage ?? 1} currentUrl={c.req.url} />
     </>)
 })

@@ -101,5 +101,3 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
-

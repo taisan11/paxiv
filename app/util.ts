@@ -7,7 +7,7 @@ export function url2imageURL(url: string): string {
         if (import.meta.env.DEV) {
             return `/proxy/img${i.pathname}`
         } else {
-            return `https://paxiv-proxy-11.deno.dev/img${i.pathname}`
+            return `https://paxiv.taisan11.deno.net/img${i.pathname}`
         }
     }
     throw new Error("Invalid URL")
@@ -37,4 +37,31 @@ export function sanitizeHtml(html: string): string {
 
 export function deleteCache(key: URL|string) {
     cachebase.delete(key)
+}
+
+export function normalizePixivMapValues<T>(value: Record<string, T | null> | T[] | null | undefined): T[] {
+    if (!value) return []
+    if (Array.isArray(value)) return value.filter((v): v is T => v !== null && v !== undefined)
+    return Object.values(value).filter((v): v is T => v !== null && v !== undefined)
+}
+
+export function normalizePixivIdList(value: Record<string, unknown> | string[] | null | undefined): string[] {
+    if (!value) return []
+    if (Array.isArray(value)) return value.filter((v): v is string => typeof v === "string")
+    return Object.keys(value)
+}
+
+export function paginateItems<T>(items: T[], currentPage: number, perPage: number): {
+    page: number
+    lastPage: number
+    pagedItems: T[]
+} {
+    const lastPage = Math.max(1, Math.ceil(items.length / perPage))
+    const safePage = Math.max(1, Math.min(Number.isFinite(currentPage) ? Math.floor(currentPage) : 1, lastPage))
+    const start = (safePage - 1) * perPage
+    return {
+        page: safePage,
+        lastPage,
+        pagedItems: items.slice(start, start + perPage)
+    }
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "paxiv",
-  "compatibility_date": "2025-07-13",
+  "compatibility_date": "2026-04-13",
   "main":"./dist/index.js",
   "compatibility_flags": [
     "nodejs_compat"
@@ -9,12 +9,9 @@
   "assets": {
     "directory": "./dist"
   },
-  "vars": {
-    "HOST": "http://localhost:5173/"
-  },
   "routes": [
     {
-      "pattern": "paxiv.taisan11.f5.si",
+      "pattern": "paxiv.taisan11.dev",
       "custom_domain": true
     }
   ]

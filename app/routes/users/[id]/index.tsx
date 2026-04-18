@@ -1,51 +1,88 @@
 import {createRoute} from "honox/factory"
-import {User} from "@/types"
-import { url2imageURL, cache, sanitizeHtml } from "@/util"
-import {fetch} from "@/fetch"
-import { UserHome } from "@/types/user"
+import {AjaxUserResponse, AjaxUserProfileTopResponse} from "@/types/ajax"
+import { url2imageURL, sanitizeHtml, normalizePixivMapValues } from "@/util"
+import { fetchPixivJson } from "@/pixiv-api"
+import {Script} from "@/components/Script"
 
 export default createRoute(async (c) => {
     const userId = c.req.param('id')
-    const userURL = `https://www.pixiv.net/touch/ajax/user/details?id=${userId}`
-    const homeURL = `https://www.pixiv.net/touch/ajax/user/home?id=${userId}`
-    const userresp = fetch(userURL)
-    const homeresp = fetch(homeURL)
-    const [user,home] = await Promise.all([userresp, homeresp])
-    const userdata = await (await cache(userURL,user)).json() as User
-    const homedata = await (await cache(homeURL,home)).json() as UserHome
+    const userURL = `https://www.pixiv.net/ajax/user/${userId}?full=1`
+    const homeURL = `https://www.pixiv.net/ajax/user/${userId}/profile/top?sensitiveFilterMode=userSetting`
+    const [userdata, homedata] = await Promise.all([
+        fetchPixivJson<AjaxUserResponse>(c, userURL),
+        fetchPixivJson<AjaxUserProfileTopResponse>(c, homeURL)
+    ])
     if (userdata.error) {
         return c.render(<>
             <h1>エラー</h1>
             <p>{userdata.message || "ユーザー情報の取得に失敗しました。"}</p>
         </>)
     }
+    if (homedata.error) {
+        return c.render(<>
+            <h1>エラー</h1>
+            <p>{homedata.message || "作品情報の取得に失敗しました。"}</p>
+        </>)
+    }
+
+    const illusts = normalizePixivMapValues(homedata.body.illusts)
+    const mangas = normalizePixivMapValues(homedata.body.manga)
+    const novels = normalizePixivMapValues(homedata.body.novels)
+    const social = userdata.body.social
+    const twitterUrl = !Array.isArray(social) ? social.twitter?.url : undefined
+
     return c.render(<>
-        <h1>{userdata.body.user_details.user_name}</h1>
-        <div dangerouslySetInnerHTML={{__html:sanitizeHtml(userdata.body.user_details.user_comment_html)}}></div>
-        <img loading="lazy" src={url2imageURL(userdata.body.user_details.profile_img.main)} alt="プロフィール画像" />
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-            {userdata.body.user_details.social.twitter.url && <a href={userdata.body.user_details.social.twitter.url} target="_blank">Twitter</a>}
-            {userdata.body.user_details.user_webpage && <a href={userdata.body.user_details.user_webpage.startsWith("http") ? userdata.body.user_details.user_webpage : `https://${userdata.body.user_details.user_webpage}`} target="_blank">Webサイト</a>}
+        <Script src='/app/script/activity.ts' />
+        <h1>{userdata.body.name}</h1>
+        <div class="client-action-bar">
+            <button
+                id="follow-toggle"
+                class="client-action-btn"
+                data-user-id={userdata.body.userId}
+                data-user-name={userdata.body.name}
+                type="button"
+            >
+                フォローする
+            </button>
+        </div>
+        <div dangerouslySetInnerHTML={{__html:sanitizeHtml(userdata.body.commentHtml)}}></div>
+        <img loading="lazy" src={url2imageURL(userdata.body.imageBig || userdata.body.image)} alt="プロフィール画像" />
+        <div class="inline-links">
+            {twitterUrl && <a href={twitterUrl} target="_blank" rel="noopener noreferrer">Twitter</a>}
+            {userdata.body.webpage && <a href={userdata.body.webpage.startsWith("http") ? userdata.body.webpage : `https://${userdata.body.webpage}`} target="_blank" rel="noopener noreferrer">Webサイト</a>}
         </div>
         <h2>イラスト|漫画</h2>
-        <div class="list-base-grid">
-        {Object.values(homedata.body.work_sets.all.data).map((illust) => (
-            <a href={`/artworks/${illust.id}`} key={illust.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-img"/>
-            </a>
-        ))}
-        </div>
-        <a href={`/user/${userId}/illusts`}>イラストをもっと見る</a><br />
-        <a href={`/user/${userId}/comics`}>漫画をもっと見る</a>
-        <h2>小説</h2>
-        <div class="list-base-grid">
-            {Object.values(homedata.body.work_sets.novels.data).map((novel) => (
-                <a href={`/novel/${novel.id}`} key={novel.id} class="list-base-item">
-                    <img loading="lazy" src={url2imageURL(novel.url)} alt={novel.title} class="list-base-img" />
+        {[...illusts, ...mangas].length === 0 ? (
+            <p class="empty-state">公開されているイラスト・マンガがありません。</p>
+        ) : (
+            <div class="list-base-grid">
+            {[...illusts, ...mangas].map((illust) => (
+                <a href={`/artworks/${illust.id}`} key={illust.id} class="list-base-item">
+                    <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-img"/>
                 </a>
             ))}
-        </div>
-        <a href={`/user/${userId}/novels`}>小説をもっと見る</a>
+            </div>
+        )}
+        <a href={`/users/${userId}/illusts`}>イラストをもっと見る</a><br />
+        <a href={`/users/${userId}/manga`}>漫画をもっと見る</a>
+        <h2>小説</h2>
+        {novels.length === 0 ? (
+            <p class="empty-state">公開されている小説がありません。</p>
+        ) : (
+            <div class="list-base-grid">
+                {novels.map((novel) => (
+                    <a href={`/novel/${novel.id}`} key={novel.id} class="list-base-item">
+                        <img
+                            loading="lazy"
+                            src={url2imageURL(novel.url || novel.cover?.urls["480mw"] || novel.cover?.urls.original || "")}
+                            alt={novel.title}
+                            class="list-base-img"
+                        />
+                    </a>
+                ))}
+            </div>
+        )}
+        <a href={`/users/${userId}/novels`}>小説をもっと見る</a>
     </>
     )
 })

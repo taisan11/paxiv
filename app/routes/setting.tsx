@@ -5,7 +5,7 @@ import {Script} from "@/components/Script"
 export default createRoute(async (c) => {
     return c.render(
         <>
-            <Script src='/app/setting.ts' />
+            <Script src='/app/script/setting.ts' />
             <h1>設定</h1>
             <a href="/">トップページに戻る</a>
             <h2>レイアウト</h2>
@@ -55,7 +55,10 @@ export default createRoute(async (c) => {
             <p>ログイン情報はcookieに保存されます。</p>
             <p>
                 <strong>Pixiv認証について:</strong><br />
-                Pixivの認証には <code>PHPSESSID</code> Cookie と <code>X-Csrf-Token</code> ヘッダーが必要です。<br />
+                HAR上では、認証付きAPIで <code>PHPSESSID</code>（Cookie）と <code>x-user-id</code> が継続的に送信され、
+                書き込み系では <code>X-Csrf-Token</code> も付与されます。<br />
+                Paxivではこの3つを保存すると、必要な <code>accept</code> / <code>accept-language</code> /
+                <code>referer</code> / <code>origin</code> ヘッダーと合わせて自動で付与します。<br />
                 <code>X-Csrf-Token</code> は下記のスクリプトをPixivのページで実行して取得できます。<br />
                 <pre>
 {`console.log(JSON.parse(JSON.parse(document.getElementById('__NEXT_DATA__').innerHTML).props.pageProps.serverSerializedPreloadedState).api.token)`}

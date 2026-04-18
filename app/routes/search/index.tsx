@@ -1,10 +1,9 @@
 import {createRoute} from "honox/factory"
-import type {SearchAll} from "@/types/search"
-import {fetch,withAuth} from "@/fetch"
+import type {AjaxSearchArtworksResponse} from "@/types/ajax"
+import { fetchPixivJson } from "@/pixiv-api"
 import { url2imageURL } from "@/util"
 import { SearchOptions } from "@/components/SearchOptions"
 import { SearchTabBar } from "@/components/SearchTabBar"
-import {getCookie} from "hono/cookie"
 
 //pでページを設定
 export default createRoute(async(c)=>{
@@ -13,21 +12,34 @@ export default createRoute(async(c)=>{
         <h1>検索</h1>
         <SearchOptions formAction="/search" showOptions={false} />
     </>)
-    const cookie = getCookie(c, "PHPSESSID")
-    const csrfToken = getCookie(c, "X-Csrf-Token")
-    const userId = getCookie(c, "userId")
-    const sarch = await (await fetch(`https://www.pixiv.net/touch/ajax/tag_portal?word=${encodeURIComponent(q)}`,withAuth(cookie!,csrfToken!,userId!))).json() as SearchAll
-    sarch.body.illusts = sarch.body.illusts.filter((v) => v.url)
+    const params = new URLSearchParams({
+        order: "date_d",
+        mode: "all",
+        p: "1",
+        ai_type: "1",
+        csw: "0",
+        s_mode: "s_tag",
+        ratio: ""
+    })
+    const sarch = await fetchPixivJson<AjaxSearchArtworksResponse>(
+        c,
+        `https://www.pixiv.net/ajax/search/artworks/${encodeURIComponent(q)}?${params.toString()}`
+    )
+    const illusts = (sarch.body?.illustManga?.data ?? []).filter((v) => v.url)
     return c.render(<>
-        <h1>{sarch.body.tag}の検索結果</h1>
+        <h1>{q}の検索結果</h1>
         <SearchOptions formAction="/search" currentQuery={q} />
         <SearchTabBar q={q} />
-        <div class="list-base-grid">
-            {sarch.body.illusts.map((v) => (
-            <a href={`/artworks/${v.id}`} key={v.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(v.url)} alt={v.title} class="list-base-img"/>
-            </a>
-            ))}
-        </div>
+        {illusts.length === 0 ? (
+            <p class="empty-state">検索結果が見つかりませんでした。</p>
+        ) : (
+            <div class="list-base-grid">
+                {illusts.map((v) => (
+                <a href={`/artworks/${v.id}`} key={v.id} class="list-base-item">
+                    <img loading="lazy" src={url2imageURL(v.url)} alt={v.title} class="list-base-img"/>
+                </a>
+                ))}
+            </div>
+        )}
     </>)
 })

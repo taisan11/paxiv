@@ -1,36 +1,72 @@
+const PIXIV_DEFAULT_HEADERS = {
+    "Accept": "application/json",
+    "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+    "DNT": "1",
+    "Referer": "https://www.pixiv.net/",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+} as const
+
+function normalizeHeaders(headers?: HeadersInit): Headers {
+    return new Headers(headers)
+}
+
 function _fetch(url: string | URL, init?: RequestInit, lang: string = "ja"): Promise<Response> {
-    const formattedUrl = new URL(url);
-    formattedUrl.searchParams.set("lang", lang);
-    formattedUrl.searchParams.set("version", "8665b63a37a52408c102f586c91b13250ec0a1b2");
-    if (!init) {
-        init = {};
+    const formattedUrl = new URL(url)
+    formattedUrl.searchParams.set("lang", lang)
+    formattedUrl.searchParams.set("version", "8665b63a37a52408c102f586c91b13250ec0a1b2")
+
+    const headers = normalizeHeaders(init?.headers)
+    for (const [key, value] of Object.entries(PIXIV_DEFAULT_HEADERS)) {
+        if (!headers.has(key)) {
+            headers.set(key, value)
+        }
     }
-    init.headers = {
-        ...init.headers,
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1"
-    };
+
+    const requestInit: RequestInit = {
+        ...init,
+        headers
+    }
+
     if (import.meta.env.DEV) {
-        return fetch(formattedUrl, init);
-    } else {
-        const proxyUrl = "https://paxiv-proxy-11.deno.dev/proxy/" + formattedUrl;
-        return fetch(proxyUrl, init);
+        return fetch(formattedUrl, requestInit)
+    }
+
+    const proxyUrl = "https://paxiv.taisan11.deno.net/proxy/" + formattedUrl
+    return fetch(proxyUrl, requestInit)
+}
+
+export function withAuth(
+    PHPSESSID?: string,
+    CSRFToken?: string,
+    UserID?: string,
+    init: RequestInit = {}
+): RequestInit {
+    const headers = normalizeHeaders(init.headers)
+
+    if (CSRFToken) {
+        headers.set("X-Csrf-Token", CSRFToken)
+        headers.set("Origin", "https://www.pixiv.net")
+    }
+
+    if (UserID) {
+        headers.set("x-user-id", UserID)
+    }
+
+    if (PHPSESSID) {
+        const cookie = headers.get("Cookie")
+        if (cookie && cookie.includes("PHPSESSID=")) {
+            headers.set("Cookie", cookie)
+        } else if (cookie) {
+            headers.set("Cookie", `${cookie}; PHPSESSID=${PHPSESSID};`)
+        } else {
+            headers.set("Cookie", `PHPSESSID=${PHPSESSID};`)
+        }
+    }
+
+    return {
+        ...init,
+        headers
     }
 }
 
-export function withAuth(PHPSESSID:string,CSRFToken:string,UserID:string,init?: RequestInit): RequestInit {
-    if (!init) {
-        init = {};
-    }
-    if (!init.headers) {
-        init.headers = {};
-    }
-    //@ts-expect-error
-    init.headers["X-Csrf-Token"] = CSRFToken;
-    //@ts-expect-error
-    init.headers["x-user-id"] = UserID;
-    //@ts-expect-error
-    init.headers["Cookie"] = `${init.headers["Cookie"]};PHPSESSID=${PHPSESSID};`;
-    return init;
-}
-
-export { _fetch as fetch };
+export { _fetch as fetch }
