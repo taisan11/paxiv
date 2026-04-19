@@ -14,7 +14,10 @@
       "pattern": "paxiv.taisan11.dev",
       "custom_domain": true
     }
-  ]
+  ],
+  "observability": {
+    "enabled": true,
+  },
   // "kv_namespaces": [
   //   {
   //     "binding": "MY_KV_NAMESPACE",
