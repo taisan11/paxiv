@@ -10,9 +10,16 @@ app.get("/img/:path{.+\\.(png|jpg)}", async (c) => {
         },
     })
 
+    const cached = await cache.match(req)
+    if (cached) {
+        return cached
+    }
+
     const res = await fetch(req)
-    cache.put(req, res.clone())
-    return c.body(await res.arrayBuffer())
+    if (res.ok) {
+        await cache.put(req, res.clone())
+    }
+    return res
 })
 
 export default app

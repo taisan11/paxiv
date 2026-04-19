@@ -24,10 +24,12 @@ export async function fetchPixivJson<T>(
 ): Promise<T> {
     const auth = getPixivAuth(c)
     const requestInit = withAuth(auth.PHPSESSID, auth.csrfToken, auth.userId, init)
-    const useSharedCache = cacheable
+    const method = (requestInit.method ?? "GET").toUpperCase()
+    const hasAuth = Boolean(auth.PHPSESSID || auth.csrfToken || auth.userId)
+    const useSharedCache = cacheable && method === "GET" && !hasAuth
 
     const response = useSharedCache
-        ? await cache(url, await fetch(url, requestInit))
+        ? await cache(url, () => fetch(url, requestInit))
         : await fetch(url, requestInit)
 
     return response.json() as Promise<T>

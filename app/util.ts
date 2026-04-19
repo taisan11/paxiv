@@ -20,13 +20,17 @@ export function toLowResThumbnailURL(url: string): string {
 
 // export const host = (c:Context) => c.env.HOST as string
 
-const cachebase: Cache = (caches as unknown as { default: Cache }).default;
+const cachebase: Cache = (caches as unknown as { default: Cache }).default
 
-export async function cache(key: URL|string, value: Response): Promise<Response> {
-    const cached = await cachebase.match(key);
-    if (cached) return cached;
-    await cachebase.put(key, value.clone());
-    return value;
+export async function cache(key: URL | string, fetcher: () => Promise<Response>): Promise<Response> {
+    const cached = await cachebase.match(key)
+    if (cached) return cached
+
+    const value = await fetcher()
+    if (value.ok) {
+        await cachebase.put(key, value.clone())
+    }
+    return value
 }
 
 export function sanitizeHtml(html: string): string {
@@ -37,11 +41,11 @@ export function sanitizeHtml(html: string): string {
         // イベントハンドラ属性を削除
         .replace(/\son\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '')
         // javascript: スキームを無効化
-        .replace(/javascript\s*:/gi, '');
+        .replace(/javascript\s*:/gi, '')
 }
 
-export function deleteCache(key: URL|string) {
-    cachebase.delete(key)
+export async function deleteCache(key: URL | string): Promise<void> {
+    await cachebase.delete(key)
 }
 
 export function normalizePixivMapValues<T>(value: Record<string, T | null> | T[] | null | undefined): T[] {
