@@ -9,6 +9,10 @@ export default createRoute((c)=>{
         <a href="/users/11">Pixiv事務局を見る</a><br />
         <a href="/">p<b>a</b>xivに寄付(未実装)</a>
         <h2>検索</h2>
-        <SearchOptions formAction="/search" showOptions={false} />
+        <SearchOptions
+            formAction="/search/i"
+            showType={true}
+            searchWorkKind="illust"
+        />
     </>)
 })

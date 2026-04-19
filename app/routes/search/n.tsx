@@ -2,9 +2,10 @@ import {createRoute} from "honox/factory"
 import type {AjaxSearchNovelsResponse} from "@/types/ajax"
 import { fetchPixivJson } from "@/pixiv-api"
 import { url2imageURL, toLowResThumbnailURL } from "@/util"
-import { SearchOptions } from "@/components/SearchOptions"
+import { SearchOptions, normalizeSearchMode } from "@/components/SearchOptions"
 import { SearchTabBar } from "@/components/SearchTabBar"
 import { Pagination } from "@/components/Pagination"
+import { ThumbnailCard } from "@/components/ThumbnailCard"
 
 //pでページを設定
 export default createRoute(async(c)=>{
@@ -15,12 +16,17 @@ export default createRoute(async(c)=>{
     const aiType = c.req.query("ai_type") === "1" ? 1 : 0
     const csw = c.req.query("csw") === "1" ? 1 : 0
     const gs = c.req.query("gs") === "1" ? 1 : 0
-    const sMode = c.req.query("s_mode") || "s_tag"
+    const sMode = normalizeSearchMode("novel", c.req.query("s_mode"))
     const workLang = c.req.query("work_lang") || "ja"
     
     if (!q) return c.render(<>
         <h1>検索</h1>
-        <SearchOptions formAction="/search/n" showSeriesGroup={true} showWorkLang={true} />
+        <SearchOptions
+            formAction="/search/n"
+            showSeriesGroup={true}
+            showWorkLang={true}
+            searchWorkKind="novel"
+        />
     </>)
     
     const params = new URLSearchParams({
@@ -45,18 +51,23 @@ export default createRoute(async(c)=>{
 
     return c.render(<>
         <h1>{q}の検索結果</h1>
-        <SearchOptions formAction="/search/n" showSeriesGroup={true} showWorkLang={true} currentQuery={q} />
+        <SearchOptions
+            formAction="/search/n"
+            showSeriesGroup={true}
+            showWorkLang={true}
+            currentQuery={q}
+            searchWorkKind="novel"
+        />
         <SearchTabBar q={q} />
         <div class="list-base-grid">
             {novels.map((novel) => (
-                <a href={`/novel/${novel.id}`} class="list-base-item" key={novel.id}>
-                        <img
-                            loading="lazy"
-                            src={url2imageURL(toLowResThumbnailURL(novel.cover?.urls["240mw"] || novel.cover?.urls["480mw"] || novel.cover?.urls.original || novel.url || ""))}
-                            alt={novel.title}
-                            class="list-base-img"
-                        />
-                </a>
+                <ThumbnailCard
+                    key={novel.id}
+                    href={`/novel/${novel.id}`}
+                    imageSrc={url2imageURL(toLowResThumbnailURL(novel.cover?.urls["240mw"] || novel.cover?.urls["480mw"] || novel.cover?.urls.original || novel.url || ""))}
+                    title={novel.title}
+                    xRestrict={novel.xRestrict}
+                />
             ))}
         </div>
         <Pagination currentPage={p} lastPage={sarch.body?.novel?.lastPage ?? 1} currentUrl={c.req.url} />

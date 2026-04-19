@@ -1,13 +1,49 @@
 import type { FC } from 'hono/jsx'
 import { Script } from "@/components/Script"
 
+export type SearchWorkKind = "illust" | "manga" | "novel"
+
+interface SearchModeOption {
+    value: string
+    label: string
+}
+
+const SEARCH_MODE_OPTIONS: Record<SearchWorkKind, SearchModeOption[]> = {
+    illust: [
+        { value: "s_tag_full", label: "完全一致" },
+        { value: "s_tag", label: "タグ一致" },
+        { value: "s_tc", label: "タイトル・キャプション一致" },
+        { value: "s_text", label: "タイトルタグキャプション" }
+    ],
+    manga: [
+        { value: "s_tag_full", label: "完全一致" },
+        { value: "s_tag", label: "タグ一致" },
+        { value: "s_tc", label: "タイトル・キャプション一致" },
+        { value: "s_text", label: "タイトルタグキャプション" }
+    ],
+    novel: [
+        { value: "s_tag_full", label: "完全一致" },
+        { value: "s_tag", label: "タグ一致" },
+        { value: "s_text", label: "本文検索" }
+    ]
+}
+
+export function normalizeSearchMode(workKind: SearchWorkKind, raw: string | undefined): string {
+    const options = SEARCH_MODE_OPTIONS[workKind]
+    const fallback = "s_tag_full"
+    if (!raw) {
+        return fallback
+    }
+    return options.some((option) => option.value === raw) ? raw : fallback
+}
+
 interface SearchOptionsProps {
     formAction: string
     showSeriesGroup?: boolean
     showWorkLang?: boolean
     showType?: boolean
     currentQuery?: string
-    showOptions?: boolean
+    searchWorkKind?: SearchWorkKind
 }
 
 export const SearchOptions: FC<SearchOptionsProps> = ({ 
@@ -16,7 +52,11 @@ export const SearchOptions: FC<SearchOptionsProps> = ({
     showWorkLang = false, 
     showType = false,
     currentQuery = "",
+    searchWorkKind = "illust"
 }) => {
+    const sModeOptions = SEARCH_MODE_OPTIONS[searchWorkKind]
+    const defaultSMode = "s_tag_full"
+
     return (
         <>
             <Script src='/app/script/search-options.ts' />
@@ -48,10 +88,10 @@ export const SearchOptions: FC<SearchOptionsProps> = ({
                             )}
                             <div class="option-group">
                                 <label for="s_mode">検索モード</label>
-                                <select name="s_mode" id="s_mode">
-                                    <option value="s_tag">タグ</option>
-                                    <option value="s_tc">タイトル・キャプション</option>
-                                    <option value="s_tag_full">完全一致タグ</option>
+                                <select name="s_mode" id="s_mode" data-default-mode={defaultSMode}>
+                                    {sModeOptions.map((mode) => (
+                                        <option value={mode.value} key={mode.value}>{mode.label}</option>
+                                    ))}
                                 </select>
                             </div>
                             {showType && (

@@ -7,20 +7,18 @@ export default app.get("*", (c) => {
     c.header("Cache-Control", "public, max-age=604800, immutable");
 
     const path = c.req.path;
-    let redirectTo = "/search";
+    let redirectTo = "/search/i";
     // パスが /tags/keyword/type の形式の場合に対応
     const match = path.match(/^\/tags\/([^\/]+)\/([^\/]+)$/);
     if (match) {
         const keyword = match[1];
         const type = match[2];
         // typeに応じてリダイレクト先を決定
-        let typeSuffix = "";
+        let typeSuffix = "i";
         if (type === "manga") {
             typeSuffix = "m";
         } else if (type === "novels") {
             typeSuffix = "n";
-        } else if (type === "illustrations") {
-            typeSuffix = "i";
         }
         redirectTo = `/search/${typeSuffix}?q=${encodeURIComponent(keyword)}`;
         // 既存のqクエリは無視

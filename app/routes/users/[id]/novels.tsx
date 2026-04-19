@@ -3,6 +3,7 @@ import {AjaxUserProfileAllResponse, AjaxUserNovelsByIdsResponse} from "@/types/a
 import { url2imageURL, normalizePixivIdList, paginateItems, toLowResThumbnailURL } from "@/util"
 import { fetchPixivJson } from "@/pixiv-api"
 import { Pagination } from "@/components/Pagination"
+import { ThumbnailCard } from "@/components/ThumbnailCard"
 
 export default createRoute(async (c) => {
     const userId = c.req.param('id')
@@ -59,9 +60,13 @@ export default createRoute(async (c) => {
         ) : (
             <div class="list-base-grid">
             {novels.map((novel) => (
-                <a href={`/novel/${novel.id}`} key={novel.id} class="list-base-item">
-                    <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(novel.cover?.urls["240mw"] || novel.url || novel.cover?.urls["480mw"] || novel.cover?.urls.original || ""))} alt={novel.title} class="list-base-img"/>
-                </a>
+                <ThumbnailCard
+                    key={novel.id}
+                    href={`/novel/${novel.id}`}
+                    imageSrc={url2imageURL(toLowResThumbnailURL(novel.cover?.urls["240mw"] || novel.url || novel.cover?.urls["480mw"] || novel.cover?.urls.original || ""))}
+                    title={novel.title}
+                    xRestrict={novel.xRestrict}
+                />
             ))}
             </div>
         )}

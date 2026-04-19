@@ -9,6 +9,7 @@ import {
 import { url2imageURL, sanitizeHtml, normalizePixivIdList, toLowResThumbnailURL } from "@/util"
 import { fetchPixivJson } from "@/pixiv-api"
 import {Script} from "@/components/Script"
+import { ThumbnailCard } from "@/components/ThumbnailCard"
 
 export default createRoute(async (c) => {
     const illustId = c.req.param('id')
@@ -170,14 +171,26 @@ export default createRoute(async (c) => {
                         {userPrevWork && (
                             <a href={`/artworks/${userPrevWork.id}`} class="adjacent-work-card">
                                 <span class="adjacent-work-label">前の作品</span>
-                                <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(userPrevWork.url))} alt={userPrevWork.title} />
+                                <div class="adjacent-work-thumb-wrap">
+                                    <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(userPrevWork.url))} alt={userPrevWork.title} />
+                                    {userPrevWork.xRestrict >= 1 && (
+                                        <span class="thumb-badge thumb-badge-r18">{userPrevWork.xRestrict >= 2 ? "R-18G" : "R-18"}</span>
+                                    )}
+                                    {userPrevWork.pageCount > 1 && <span class="thumb-badge thumb-badge-pages">📚 {userPrevWork.pageCount}</span>}
+                                </div>
                                 <span>{userPrevWork.title}</span>
                             </a>
                         )}
                         {userNextWork && (
                             <a href={`/artworks/${userNextWork.id}`} class="adjacent-work-card">
                                 <span class="adjacent-work-label">次の作品</span>
-                                <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(userNextWork.url))} alt={userNextWork.title} />
+                                <div class="adjacent-work-thumb-wrap">
+                                    <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(userNextWork.url))} alt={userNextWork.title} />
+                                    {userNextWork.xRestrict >= 1 && (
+                                        <span class="thumb-badge thumb-badge-r18">{userNextWork.xRestrict >= 2 ? "R-18G" : "R-18"}</span>
+                                    )}
+                                    {userNextWork.pageCount > 1 && <span class="thumb-badge thumb-badge-pages">📚 {userNextWork.pageCount}</span>}
+                                </div>
                                 <span>{userNextWork.title}</span>
                             </a>
                         )}
@@ -194,9 +207,14 @@ export default createRoute(async (c) => {
             ) : (
                 <div class="list-base-grid">
                     {relatedWorks.map((work) => (
-                        <a href={`/artworks/${work.id}`} key={work.id} class="list-base-item">
-                            <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(work.url ?? ""))} alt={work.title} class="list-base-img"/>
-                        </a>
+                        <ThumbnailCard
+                            key={work.id}
+                            href={`/artworks/${work.id}`}
+                            imageSrc={url2imageURL(toLowResThumbnailURL(work.url ?? ""))}
+                            title={work.title}
+                            xRestrict={work.xRestrict}
+                            pageCount={work.pageCount}
+                        />
                     ))}
                 </div>
             )}

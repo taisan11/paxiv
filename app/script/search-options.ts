@@ -33,7 +33,8 @@ window.addEventListener('DOMContentLoaded', () => {
     // 検索モード
     const searchModeSelect = document.getElementById('s_mode') as HTMLSelectElement | null;
     if (searchModeSelect) {
-        const sMode = urlParams.get('s_mode') || 's_tag';
+        const defaultSMode = searchModeSelect.dataset.defaultMode ?? 's_tag_full';
+        const sMode = urlParams.get('s_mode') ?? defaultSMode;
         searchModeSelect.value = sMode;
     }
     
@@ -80,7 +81,8 @@ window.addEventListener('DOMContentLoaded', () => {
             
             // 検索モード
             const sMode = formData.get('s_mode') as string;
-            if (sMode && sMode !== 's_tag') {
+            const defaultSMode = (document.getElementById('s_mode') as HTMLSelectElement | null)?.dataset.defaultMode ?? 's_tag_full';
+            if (sMode !== defaultSMode) {
                 params.set('s_mode', sMode);
             }
             

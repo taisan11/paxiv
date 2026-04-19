@@ -3,6 +3,7 @@ import {AjaxUserProfileAllResponse, AjaxUserIllustsByIdsResponse} from "@/types/
 import { url2imageURL, normalizePixivIdList, paginateItems, toLowResThumbnailURL } from "@/util"
 import { fetchPixivJson } from "@/pixiv-api"
 import { Pagination } from "@/components/Pagination"
+import { ThumbnailCard } from "@/components/ThumbnailCard"
 
 export default createRoute(async (c) => {
     const userId = c.req.param('id')
@@ -46,9 +47,14 @@ export default createRoute(async (c) => {
         ) : (
             <div class="list-base-grid">
                 {illusts.map((illust) => (
-                    <a href={`/artworks/${illust.id}`} key={illust.id} class="list-base-item">
-                        <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(illust.url))} alt={illust.title} class="list-base-img" />
-                    </a>
+                    <ThumbnailCard
+                        key={illust.id}
+                        href={`/artworks/${illust.id}`}
+                        imageSrc={url2imageURL(toLowResThumbnailURL(illust.url))}
+                        title={illust.title}
+                        xRestrict={illust.xRestrict}
+                        pageCount={illust.pageCount}
+                    />
                 ))}
             </div>
         )}

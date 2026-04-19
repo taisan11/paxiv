@@ -2,9 +2,10 @@ import {createRoute} from "honox/factory"
 import type {AjaxSearchArtworksResponse} from "@/types/ajax"
 import { fetchPixivJson } from "@/pixiv-api"
 import { url2imageURL, toLowResThumbnailURL } from "@/util"
-import { SearchOptions } from "@/components/SearchOptions"
+import { SearchOptions, normalizeSearchMode } from "@/components/SearchOptions"
 import { SearchTabBar } from "@/components/SearchTabBar"
 import { Pagination } from "@/components/Pagination"
+import { ThumbnailCard } from "@/components/ThumbnailCard"
 
 //pでページを設定
 export default createRoute(async(c)=>{
@@ -14,12 +15,16 @@ export default createRoute(async(c)=>{
     // 検索オプション
     const aiType = c.req.query("ai_type") === "1" ? 1 : 0
     const csw = c.req.query("csw") === "1" ? 1 : 0
-    const sMode = c.req.query("s_mode") || "s_tag"
+    const sMode = normalizeSearchMode("illust", c.req.query("s_mode"))
     const type = c.req.query("type") || "illust_and_ugoira"
     
     if (!q) return c.render(<>
         <h1>検索</h1>
-        <SearchOptions formAction="/search/i" showType={true} />
+        <SearchOptions
+            formAction="/search/i"
+            showType={true}
+            searchWorkKind="illust"
+        />
     </>)
     
     const params = new URLSearchParams({
@@ -43,13 +48,23 @@ export default createRoute(async(c)=>{
 
     return c.render(<>
         <h1>{q}の検索結果</h1>
-        <SearchOptions formAction="/search/i" showType={true} currentQuery={q} />
+        <SearchOptions
+            formAction="/search/i"
+            showType={true}
+            currentQuery={q}
+            searchWorkKind="illust"
+        />
         <SearchTabBar q={q} />
         <div class="list-base-grid">
             {illusts.map((v) => (
-            <a href={`/artworks/${v.id}`} key={v.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(v.url ?? ""))} alt={v.title} class="list-base-img"/>
-            </a>
+                <ThumbnailCard
+                    key={v.id}
+                    href={`/artworks/${v.id}`}
+                    imageSrc={url2imageURL(toLowResThumbnailURL(v.url ?? ""))}
+                    title={v.title}
+                    xRestrict={v.xRestrict}
+                    pageCount={v.pageCount}
+                />
             ))}
         </div>
         <Pagination currentPage={p} lastPage={sarch.body?.illustManga?.lastPage ?? 1} currentUrl={c.req.url} />

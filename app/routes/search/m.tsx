@@ -2,9 +2,10 @@ import {createRoute} from "honox/factory"
 import type {AjaxSearchMangaResponse} from "@/types/ajax"
 import { fetchPixivJson } from "@/pixiv-api"
 import { url2imageURL, toLowResThumbnailURL } from "@/util"
-import { SearchOptions } from "@/components/SearchOptions"
+import { SearchOptions, normalizeSearchMode } from "@/components/SearchOptions"
 import { SearchTabBar } from "@/components/SearchTabBar"
 import { Pagination } from "@/components/Pagination"
+import { ThumbnailCard } from "@/components/ThumbnailCard"
 
 //pでページを設定
 export default createRoute(async(c)=>{
@@ -14,11 +15,14 @@ export default createRoute(async(c)=>{
     // 検索オプション
     const aiType = c.req.query("ai_type") === "1" ? 1 : 0
     const csw = c.req.query("csw") === "1" ? 1 : 0
-    const sMode = c.req.query("s_mode") || "s_tag"
+    const sMode = normalizeSearchMode("manga", c.req.query("s_mode"))
     
     if (!q) return c.render(<>
         <h1>検索</h1>
-        <SearchOptions formAction="/search/m" />
+        <SearchOptions
+            formAction="/search/m"
+            searchWorkKind="manga"
+        />
     </>)
     
     const params = new URLSearchParams({
@@ -44,7 +48,11 @@ export default createRoute(async(c)=>{
     if (mangas.length === 0) {
         return c.render(<>
             <h1>{q}の検索結果</h1>
-            <SearchOptions formAction="/search/m" currentQuery={q} />
+            <SearchOptions
+                formAction="/search/m"
+                currentQuery={q}
+                searchWorkKind="manga"
+            />
             <SearchTabBar q={q} />
             <p>該当するマンガが見つからなかったか、リクエストでエラーが発生しました。</p>
         </>)
@@ -52,13 +60,22 @@ export default createRoute(async(c)=>{
 
     return c.render(<>
         <h1>{q}の検索結果</h1>
-        <SearchOptions formAction="/search/m" currentQuery={q} />
+        <SearchOptions
+            formAction="/search/m"
+            currentQuery={q}
+            searchWorkKind="manga"
+        />
         <SearchTabBar q={q} />
         <div class="list-base-grid">
             {mangas.map((v) => (
-            <a href={`/artworks/${v.id}`} key={v.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(v.url ?? ""))} alt={v.title} class="list-base-img"/>
-            </a>
+                <ThumbnailCard
+                    key={v.id}
+                    href={`/artworks/${v.id}`}
+                    imageSrc={url2imageURL(toLowResThumbnailURL(v.url ?? ""))}
+                    title={v.title}
+                    xRestrict={v.xRestrict}
+                    pageCount={v.pageCount}
+                />
             ))}
         </div>
         <Pagination currentPage={p} lastPage={sarch.body?.manga?.lastPage ?? 1} currentUrl={c.req.url} />

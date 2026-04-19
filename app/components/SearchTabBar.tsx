@@ -7,7 +7,6 @@ interface SearchTabBarProps {
 export const SearchTabBar: FC<SearchTabBarProps> = ({ q }) => {
     return (
         <nav className="search-tab-bar">
-            <a href={`/search?q=${q}`}>トップ</a>
             <a href={`/search/i?q=${q}`}>イラスト</a>
             <a href={`/search/m?q=${q}`}>マンガ</a>
             <a href={`/search/n?q=${q}`}>ノベル</a>
