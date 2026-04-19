@@ -10,7 +10,7 @@ function normalizeHeaders(headers?: HeadersInit): Headers {
     return new Headers(headers)
 }
 
-function _fetch(url: string | URL, init?: RequestInit, lang: string = "ja"): Promise<Response> {
+async function _fetch(url: string | URL, init?: RequestInit, lang: string = "ja"): Promise<Response> {
     const formattedUrl = new URL(url)
     formattedUrl.searchParams.set("lang", lang)
     formattedUrl.searchParams.set("version", "8665b63a37a52408c102f586c91b13250ec0a1b2")
@@ -32,7 +32,12 @@ function _fetch(url: string | URL, init?: RequestInit, lang: string = "ja"): Pro
     }
 
     const proxyUrl = "https://paxiv.taisan11.deno.net/proxy/" + formattedUrl
-    return fetch(proxyUrl, requestInit)
+    const proxyResponse = await fetch(proxyUrl, requestInit)
+    if (proxyResponse.ok) {
+        return proxyResponse
+    }
+
+    return fetch(formattedUrl, requestInit)
 }
 
 export function withAuth(
