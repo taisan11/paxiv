@@ -1,6 +1,6 @@
 import {createRoute} from "honox/factory"
 import {AjaxUserResponse, AjaxUserProfileTopResponse} from "@/types/ajax"
-import { url2imageURL, sanitizeHtml, normalizePixivMapValues } from "@/util"
+import { url2imageURL, sanitizeHtml, normalizePixivMapValues, toLowResThumbnailURL } from "@/util"
 import { fetchPixivJson } from "@/pixiv-api"
 import {Script} from "@/components/Script"
 
@@ -58,7 +58,7 @@ export default createRoute(async (c) => {
             <div class="list-base-grid">
             {[...illusts, ...mangas].map((illust) => (
                 <a href={`/artworks/${illust.id}`} key={illust.id} class="list-base-item">
-                    <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-img"/>
+                    <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(illust.url))} alt={illust.title} class="list-base-img"/>
                 </a>
             ))}
             </div>
@@ -74,7 +74,7 @@ export default createRoute(async (c) => {
                     <a href={`/novel/${novel.id}`} key={novel.id} class="list-base-item">
                         <img
                             loading="lazy"
-                            src={url2imageURL(novel.url || novel.cover?.urls["480mw"] || novel.cover?.urls.original || "")}
+                            src={url2imageURL(toLowResThumbnailURL(novel.cover?.urls["240mw"] || novel.url || novel.cover?.urls["480mw"] || novel.cover?.urls.original || ""))}
                             alt={novel.title}
                             class="list-base-img"
                         />

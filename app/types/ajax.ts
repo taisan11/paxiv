@@ -118,6 +118,12 @@ export interface AjaxIllustPagesResponse extends AjaxApiResponse<Array<{
     height: number;
 }>> {}
 
+export interface AjaxIllustRecommendInitResponse extends AjaxApiResponse<{
+    illusts?: AjaxIllustItem[];
+    nextIds?: string[];
+    details?: unknown;
+}> {}
+
 export interface AjaxNovelDetailResponse extends AjaxApiResponse<{
     id: string;
     title: string;

@@ -53,18 +53,16 @@ export default createRoute(async (c) => {
                         📚 シリーズ: {seriesNavData?.title}
                     </a>
                 )}
-                <div class="series-prev-next">
-                    {prevWork?.id && (
-                        <a href={`/novel/${String(prevWork.id)}`} class="series-nav-btn">
-                            ← {prevWork.title}
-                        </a>
-                    )}
-                    {nextWork?.id && (
-                        <a href={`/novel/${String(nextWork.id)}`} class="series-nav-btn">
-                            {nextWork.title} →
-                        </a>
-                    )}
-                </div>
+                {nextWork?.id && (
+                    <a href={`/novel/${String(nextWork.id)}`} class="series-nav-btn">
+                        次の作品: {nextWork.title}
+                    </a>
+                )}
+                {prevWork?.id && (
+                    <a href={`/novel/${String(prevWork.id)}`} class="series-nav-btn">
+                        前の作品: {prevWork.title}
+                    </a>
+                )}
             </div>
         )}
         <div class="inline-links">

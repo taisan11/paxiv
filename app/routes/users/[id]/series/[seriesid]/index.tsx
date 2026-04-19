@@ -1,6 +1,6 @@
 import { createRoute } from "honox/factory"
 import { AjaxIllustSeriesContentResponse, AjaxIllustSeriesDetailResponse } from "@/types/ajax"
-import { url2imageURL } from "@/util"
+import { url2imageURL, toLowResThumbnailURL } from "@/util"
 import { fetchPixivJson } from "@/pixiv-api"
 import { Pagination } from "@/components/Pagination"
 
@@ -43,7 +43,7 @@ export default createRoute(async (c) => {
                 <div class="series-list">
                     {items.map((illust) => (
                         <a key={illust.id} class="series-item" href={`/artworks/${illust.id}`} target="_blank" rel="noopener noreferrer">
-                            <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} />
+                            <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(illust.url))} alt={illust.title} />
                             <span>{illust.title}</span>
                         </a>
                     ))}

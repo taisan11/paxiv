@@ -1,7 +1,7 @@
 import {createRoute} from "honox/factory"
 import type {AjaxSearchNovelsResponse} from "@/types/ajax"
 import { fetchPixivJson } from "@/pixiv-api"
-import { url2imageURL } from "@/util"
+import { url2imageURL, toLowResThumbnailURL } from "@/util"
 import { SearchOptions } from "@/components/SearchOptions"
 import { SearchTabBar } from "@/components/SearchTabBar"
 import { Pagination } from "@/components/Pagination"
@@ -50,12 +50,12 @@ export default createRoute(async(c)=>{
         <div class="list-base-grid">
             {novels.map((novel) => (
                 <a href={`/novel/${novel.id}`} class="list-base-item" key={novel.id}>
-                    <img
-                        loading="lazy"
-                        src={url2imageURL(novel.cover?.urls["480mw"] || novel.cover?.urls.original || novel.url || "")}
-                        alt={novel.title}
-                        class="list-base-img"
-                    />
+                        <img
+                            loading="lazy"
+                            src={url2imageURL(toLowResThumbnailURL(novel.cover?.urls["240mw"] || novel.cover?.urls["480mw"] || novel.cover?.urls.original || novel.url || ""))}
+                            alt={novel.title}
+                            class="list-base-img"
+                        />
                 </a>
             ))}
         </div>

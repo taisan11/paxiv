@@ -1,7 +1,7 @@
 import {createRoute} from "honox/factory"
 import type {AjaxSearchMangaResponse} from "@/types/ajax"
 import { fetchPixivJson } from "@/pixiv-api"
-import { url2imageURL } from "@/util"
+import { url2imageURL, toLowResThumbnailURL } from "@/util"
 import { SearchOptions } from "@/components/SearchOptions"
 import { SearchTabBar } from "@/components/SearchTabBar"
 import { Pagination } from "@/components/Pagination"
@@ -57,7 +57,7 @@ export default createRoute(async(c)=>{
         <div class="list-base-grid">
             {mangas.map((v) => (
             <a href={`/artworks/${v.id}`} key={v.id} class="list-base-item">
-                <img loading="lazy" src={url2imageURL(v.url ?? "")} alt={v.title} class="list-base-img"/>
+                <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(v.url ?? ""))} alt={v.title} class="list-base-img"/>
             </a>
             ))}
         </div>

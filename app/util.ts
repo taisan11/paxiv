@@ -13,6 +13,11 @@ export function url2imageURL(url: string): string {
     throw new Error("Invalid URL")
 }
 
+export function toLowResThumbnailURL(url: string): string {
+    if (!url) {return ""}
+    return url.replace(/\/c\/[^/]+\//, "/c/250x250_80_a2/")
+}
+
 // export const host = (c:Context) => c.env.HOST as string
 
 const cachebase: Cache = (caches as unknown as { default: Cache }).default;

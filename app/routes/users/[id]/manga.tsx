@@ -1,6 +1,6 @@
 import {createRoute} from "honox/factory"
 import {AjaxUserProfileAllResponse, AjaxUserIllustsByIdsResponse} from "@/types/ajax"
-import { url2imageURL, normalizePixivIdList, paginateItems } from "@/util"
+import { url2imageURL, normalizePixivIdList, paginateItems, toLowResThumbnailURL } from "@/util"
 import { fetchPixivJson } from "@/pixiv-api"
 import { Pagination } from "@/components/Pagination"
 
@@ -47,7 +47,7 @@ export default createRoute(async (c) => {
             <div class="list-base-grid">
             {mangas.map((illust) => (
                 <a href={`/artworks/${illust.id}`} key={illust.id} class="list-base-item">
-                    <img loading="lazy" src={url2imageURL(illust.url)} alt={illust.title} class="list-base-img"/>
+                    <img loading="lazy" src={url2imageURL(toLowResThumbnailURL(illust.url))} alt={illust.title} class="list-base-img"/>
                 </a>
             ))}
             </div>
