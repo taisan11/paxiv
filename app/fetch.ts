@@ -47,10 +47,13 @@ export function withAuth(
     init: RequestInit = {}
 ): RequestInit {
     const headers = normalizeHeaders(init.headers)
+    //色々bypass用
+    headers.set("Origin", "https://www.pixiv.net")
+    // headers.set("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36")
+
 
     if (CSRFToken) {
         headers.set("X-Csrf-Token", CSRFToken)
-        headers.set("Origin", "https://www.pixiv.net")
     }
 
     if (UserID) {
