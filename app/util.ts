@@ -7,7 +7,7 @@ export function url2imageURL(url: string): string {
         if (import.meta.env.DEV) {
             return `/proxy/img${i.pathname}`
         } else {
-            return `https://paxiv.taisan11.deno.net/img${i.pathname}`
+            return `https://paxiv.taisan11.dev/img${i.pathname}`
         }
     }
     throw new Error("Invalid URL")

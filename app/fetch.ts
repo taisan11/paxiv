@@ -31,7 +31,7 @@ async function _fetch(url: string | URL, init?: RequestInit, lang: string = "ja"
         return fetch(formattedUrl, requestInit)
     }
 
-    const proxyUrl = "https://paxiv.taisan11.deno.net/proxy/" + formattedUrl
+    const proxyUrl = "https://paxiv.taisan11.dev/proxy/" + formattedUrl
     const proxyResponse = await fetch(proxyUrl, requestInit)
     if (proxyResponse.ok) {
         return proxyResponse
