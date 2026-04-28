@@ -31,6 +31,7 @@ export async function fetchPixivJson<T>(
     const response = useSharedCache
         ? await cache(url, () => fetch(url, requestInit))
         : await fetch(url, requestInit)
+    console.log(await response.text())
 
     return response.json() as Promise<T>
 }

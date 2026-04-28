@@ -5,7 +5,7 @@ export function url2imageURL(url: string): string {
     const i = new URL(url)
     if (i.hostname === "i.pximg.net") {
         if (import.meta.env.DEV) {
-            return `/proxy/img${i.pathname}`
+            return `/img${i.pathname}`
         } else {
             return `https://paxiv.taisan11.dev/img${i.pathname}`
         }

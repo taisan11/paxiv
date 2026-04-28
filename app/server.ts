@@ -6,9 +6,11 @@ import {etag} from "hono/etag"
 import {cors} from "hono/cors"
 import {proxy} from "hono/proxy"
 import {cache} from "hono/cache"
+import {logger} from "hono/logger"
 
 const app = createApp()
 
+app.use(logger())
 app.use(bodyLimit({maxSize: 50 * 1024}))
 app.use(secureHeaders())
 app.use(cors({
@@ -26,6 +28,20 @@ app.get(
   })
 )
 
+// Image proxy with cache
+app.get("/img/:path{.+\\.(png|jpg)}", async (c) => {
+    const cache = await caches.open("image")
+    const req = new Request(`http://i.pximg.net/${c.req.param('path')}`, {
+        headers: {
+            Referer: 'https://www.pixiv.net/',
+        },
+    })
+
+    const res = await fetch(req)
+    cache.put(req, res.clone())
+    return c.body(await res.arrayBuffer())
+})
+
 // Proxy with caching
 app.all("/proxy/:url{.+}", async (c) => {
     const cache = await caches.open("my-cache");
@@ -39,20 +55,6 @@ app.all("/proxy/:url{.+}", async (c) => {
         cache.put(cacheRequest, re.clone());
         return re;
     }
-})
-
-// Image proxy with cache
-app.get("/img/:path{.+\\.(png|jpg)}", async (c) => {
-    const cache = await caches.open("image")
-    const req = new Request(`http://i.pximg.net/${c.req.param('path')}`, {
-        headers: {
-            Referer: 'https://www.pixiv.net/',
-        },
-    })
-
-    const res = await fetch(req)
-    cache.put(req, res.clone())
-    return c.body(await res.arrayBuffer())
 })
 
 if (import.meta.env.DEV) {
